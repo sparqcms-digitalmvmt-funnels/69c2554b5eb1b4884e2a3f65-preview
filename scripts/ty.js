@@ -2,7 +2,7 @@
   
 // Select campaign based on whether this is a VIP page or not  
 const getVrioCampaignInfoBasedOnPaymentMethod = (isVipUpsell) => {
-    const vrioCampaigns = [{"_id":"696a4531a531c62359271f0b","integration":[{"_id":"685435949a3a8c5ffb4854ef","workspace":"develop","platform":"vrio","description":"dev, team api","fields":{"publicApiKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImFkbWluIiwib3JnYW5pemF0aW9uIjoibXZtdHNhbmRib3gudnJpbyIsImlkIjoiNTQxNzM0MWMtOTI3ZS00YTc5LTk5MTQtMzcxM2IyM2RlMTNlIiwiaWF0IjoxNzUwMDk4ODg1LCJhdWQiOiJ1cm46dnJpbzphcGk6dXNlciIsImlzcyI6InVybjp2cmlvOmFwaTphdXRoZW50aWNhdG9yIiwic3ViIjoidXJuOnZyaW86YXBpOjE4In0.z4qwr2v87T3wq73w1nT8aSASKIMVLnL0HX1E-2tavrs"},"status":"active","createdAt":1750335264215,"updatedAt":1750349204667,"__v":0,"category":"CRM","id":"685435949a3a8c5ffb4854ef"}],"externalId":"39","name":"Vi-Shift - Network - (1)","currency":"USD","countries":[223,38],"metadata":{"campaign_id":39,"campaign_name":"","payment_type_id":1,"campaign_active":true,"campaign_prepaid":true,"campaign_payment_method_required":true,"campaign_group_transactions":true,"campaign_global_js":"","campaign_global_seo_title":"","campaign_global_seo_keywords":"","campaign_global_seo_description":"","date_created":"2026-01-16 14:32:16","created_by":0,"date_modified":"2026-01-16 14:32:16","modified_by":0,"campaign_notes":"","offers":[],"shipping_profiles":[],"campaignId":"39","externalId":39,"description":"","payment_methods":["amex","discover","visa","master"],"alternative_payments":[],"countries":[{"iso_numeric":840,"calling_code":"1","id":223,"name":"United States of America","iso_2":"US","iso_3":"USA"},{"iso_numeric":124,"calling_code":"1","id":38,"name":"Canada","iso_2":"CA","iso_3":"CAN"}]},"funnels":[],"createdAt":1768339039473,"updatedAt":1768573936154,"packages":[],"status":"active","platform":"vrio","__v":0,"id":"696a4531a531c62359271f0b"}];
+    const vrioCampaigns = [{"_id":"696a4531a531c62359271f0b","integration":[{"_id":"685435949a3a8c5ffb4854ef","workspace":"develop","platform":"vrio","description":"dev, team api","fields":{"publicApiKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImFkbWluIiwib3JnYW5pemF0aW9uIjoibXZtdHNhbmRib3gudnJpbyIsImlkIjoiNTQxNzM0MWMtOTI3ZS00YTc5LTk5MTQtMzcxM2IyM2RlMTNlIiwiaWF0IjoxNzUwMDk4ODg1LCJhdWQiOiJ1cm46dnJpbzphcGk6dXNlciIsImlzcyI6InVybjp2cmlvOmFwaTphdXRoZW50aWNhdG9yIiwic3ViIjoidXJuOnZyaW86YXBpOjE4In0.z4qwr2v87T3wq73w1nT8aSASKIMVLnL0HX1E-2tavrs"},"status":"active","createdAt":1750335264215,"updatedAt":1750349204667,"__v":0,"category":"CRM","id":"685435949a3a8c5ffb4854ef"}],"externalId":"39","name":"Vi-Shift - Network - (1)","currency":"USD","countries":[81],"metadata":{"campaign_id":39,"campaign_name":"","payment_type_id":1,"campaign_active":true,"campaign_prepaid":true,"campaign_payment_method_required":true,"campaign_group_transactions":true,"campaign_global_js":"","campaign_global_seo_title":"","campaign_global_seo_keywords":"","campaign_global_seo_description":"","date_created":"2026-03-30 12:15:16","created_by":0,"date_modified":"2026-03-30 12:15:16","modified_by":0,"campaign_notes":"","offers":[],"shipping_profiles":[],"campaignId":"39","externalId":39,"description":"","payment_methods":["amex","discover","visa","master"],"alternative_payments":[],"countries":[{"iso_numeric":276,"calling_code":"49","id":81,"name":"Germany","iso_2":"DE","iso_3":"DEU"}]},"funnels":[],"createdAt":1768339039473,"updatedAt":1774872916460,"packages":[],"status":"active","platform":"vrio","__v":1,"id":"696a4531a531c62359271f0b"}];
 
     const vrioIntegration = vrioCampaigns.find(({ integration }) =>
       integration.find((int) => int.platform === 'vrio'),
@@ -76,76 +76,76 @@ function formatPrice(amount, suffix = '') {
 
 
 const i18n = {
-  "iso2": "US",
-  "phoneInitialCountry": "us",
-  "dateFormat": "MM/DD/YYYY",
+  "iso2": "DE",
+  "phoneInitialCountry": "de",
+  "dateFormat": "DD.MM.YYYY",
   "fallbackCountry": {
-    "iso_numeric": 840,
-    "calling_code": "1",
-    "id": 223,
-    "name": "United States of America",
-    "iso_2": "US",
-    "iso_3": "USA"
+    "iso_numeric": 276,
+    "calling_code": "49",
+    "id": 79,
+    "name": "Germany",
+    "iso_2": "DE",
+    "iso_3": "DEU"
   },
   "pricingText": {
-    "off": "OFF",
-    "free": "FREE",
-    "freeShipping": "Free Shipping",
-    "perUnit": "/ea",
-    "selectedProduct": "Selected Product"
+    "off": "RABATT",
+    "free": "KOSTENLOS",
+    "freeShipping": "Kostenloser Versand",
+    "perUnit": "/Stk.",
+    "selectedProduct": "Ausgewähltes Produkt"
   },
   "validation": {
-    "expirationDateRequired": "* Expiration date is required",
-    "expirationDateInvalid": "* Invalid or expired date",
-    "cardNumberRequired": "* Enter a valid card number",
-    "cardNumberInvalid": "* Invalid card number",
-    "cardCvvRequired": "* Card CVV is required",
-    "cardCvvMinLength": "* Card CVV must have at least 3 digits",
-    "emailRequired": "* Please enter the e-mail address",
-    "emailInvalid": "* Email is invalid",
-    "firstNameRequired": "* First name is required",
-    "lastNameRequired": "* Last name is required",
-    "invalidCharacter": "* Contains an invalid character",
-    "shippingAddressRequired": "* Shipping address is required",
-    "cityRequired": "* City is required",
-    "countryRequired": "* Country is required",
-    "stateRequired": "* State/Province is required",
-    "zipRequired": "* ZIP/Postcode is required",
-    "zipInvalid": "* Invalid ZIP/Postcode code",
-    "phoneInvalid": "* Please enter a valid phone number",
-    "maxLength255": "* Maximum 255 characters",
-    "billingAddressRequired": "* Billing address is required",
-    "billingCityRequired": "* Billing city is required",
-    "billingZipRequired": "* Billing ZIP/Postcode code is required"
+    "expirationDateRequired": "* Das Ablaufdatum ist erforderlich",
+    "expirationDateInvalid": "* Ungültiges oder abgelaufenes Datum",
+    "cardNumberRequired": "* Bitte geben Sie eine gültige Kartennummer ein",
+    "cardNumberInvalid": "* Ungültige Kartennummer",
+    "cardCvvRequired": "* Die Kartenprüfnummer (CVV) ist erforderlich",
+    "cardCvvMinLength": "* Karten-CVV muss mindestens 3 Ziffern haben",
+    "emailRequired": "* Bitte geben Sie eine E-Mail-Adresse ein",
+    "emailInvalid": "* E-Mail ist ungültig!",
+    "firstNameRequired": "* Der Vorname ist erforderlich",
+    "lastNameRequired": "* Der Nachname ist erforderlich",
+    "invalidCharacter": "* Enthält ein ungültiges Zeichen",
+    "shippingAddressRequired": "* Die Lieferadresse ist erforderlich",
+    "cityRequired": "* Der Ort ist erforderlich",
+    "countryRequired": "* Das Land ist erforderlich",
+    "stateRequired": "* Das Bundesland ist erforderlich",
+    "zipRequired": "* Die Postleitzahl ist erforderlich",
+    "zipInvalid": "* Ungültige Postleitzahl",
+    "phoneInvalid": "* Die Telefonnummer ist erforderlich",
+    "maxLength255": "* Maximal 255 Zeichen",
+    "billingAddressRequired": "* Die Rechnungsadresse ist erforderlich",
+    "billingCityRequired": "* Die Rechnungsstadt ist erforderlich",
+    "billingZipRequired": "* Die Rechnungs-Postleitzahl ist erforderlich"
   },
   "errors": {
-    "walletVerificationFailed": "This payment needs additional verification. Please try a different payment method.",
-    "walletOrderFailed": "Something went wrong creating your order, please try again",
-    "unexpectedError": "An unexpected error occurred. Please try again.",
-    "paymentDeclined": "Your payment could not be processed. Please try a different payment method.",
-    "systemErrorOffer": "There was a problem with this offer. Please contact support or try again later.",
-    "systemErrorGeneric": "Something went wrong processing your order. Please try again or contact support if the problem persists.",
-    "klarnaNotAvailableRecurring": "Klarna is not available for recurring products.",
-    "klarnaNotAvailable": "Klarna is not available.",
-    "klarnaSubscriptionsNotSupported": "Subscriptions are not supported with Klarna",
-    "klarnaOrderFailed": "Something went wrong creating the order, please try again",
-    "klarnaProcessingFailed": "Something went wrong processing your order, please try again",
-    "klarnaPaymentNotCompleted": "Klarna payment was not completed",
-    "klarnaPaymentNotCompletedRedirect": "Klarna payment was not completed. Redirecting to checkout...",
-    "klarnaCompletionFailed": "Something went wrong completing your Klarna payment.",
-    "orderAlreadyCompleteRedirect": "Order is already complete. Redirecting to the next page...",
-    "unexpectedErrorRedirect": "An unexpected error occurred. Redirecting to checkout...",
-    "orderNotFoundRedirect": "Order not found. Redirecting to checkout...",
-    "orderNotFound": "Order not found. Please try again.",
-    "orderCanceled": "Order canceled",
-    "creditCardOrderFailed": "Something went wrong, please try again",
-    "upsellOrderFailed": "Something went wrong adding offers, please try again",
-    "countryNotAvailableNamed": "The country {name} is not available, please choose another.",
-    "countryNotAvailable": "This country is not available, please choose another."
+    "walletVerificationFailed": "Diese Zahlung erfordert eine zusätzliche Überprüfung. Bitte versuchen Sie eine andere Zahlungsmethode.",
+    "walletOrderFailed": "Beim Erstellen Ihrer Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+    "unexpectedError": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+    "paymentDeclined": "Ihre Zahlung konnte nicht verarbeitet werden. Bitte versuchen Sie eine andere Zahlungsmethode.",
+    "systemErrorOffer": "Es gab ein Problem mit diesem Angebot. Bitte kontaktieren Sie den Support oder versuchen Sie es später erneut.",
+    "systemErrorGeneric": "Bei der Verarbeitung Ihrer Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.",
+    "klarnaNotAvailableRecurring": "Klarna ist für wiederkehrende Produkte nicht verfügbar.",
+    "klarnaNotAvailable": "Klarna ist nicht verfügbar.",
+    "klarnaSubscriptionsNotSupported": "Abonnements werden mit Klarna nicht unterstützt",
+    "klarnaOrderFailed": "Beim Erstellen der Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+    "klarnaProcessingFailed": "Bei der Verarbeitung Ihrer Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+    "klarnaPaymentNotCompleted": "Die Klarna-Zahlung wurde nicht abgeschlossen",
+    "klarnaPaymentNotCompletedRedirect": "Die Klarna-Zahlung wurde nicht abgeschlossen. Weiterleitung zur Kasse...",
+    "klarnaCompletionFailed": "Beim Abschließen Ihrer Klarna-Zahlung ist ein Fehler aufgetreten.",
+    "orderAlreadyCompleteRedirect": "Bestellung ist bereits abgeschlossen. Weiterleitung zur nächsten Seite...",
+    "unexpectedErrorRedirect": "Ein unerwarteter Fehler ist aufgetreten. Weiterleitung zur Kasse...",
+    "orderNotFoundRedirect": "Bestellung nicht gefunden. Weiterleitung zur Kasse...",
+    "orderNotFound": "Bestellung nicht gefunden. Bitte versuchen Sie es erneut.",
+    "orderCanceled": "Bestellung storniert",
+    "creditCardOrderFailed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut",
+    "upsellOrderFailed": "Beim Hinzufügen der Angebote ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+    "countryNotAvailableNamed": "Das Land {name} ist nicht verfügbar, bitte wählen Sie ein anderes.",
+    "countryNotAvailable": "Dieses Land ist nicht verfügbar, bitte wählen Sie ein anderes."
   },
   "labels": {
-    "noStatesAvailable": "No States or Provinces Available for this Country",
-    "selectState": "Select state"
+    "noStatesAvailable": "Keine Bundesländer für dieses Land verfügbar",
+    "selectState": "Bundesland auswählen"
   }
 };
 
@@ -155,8 +155,13 @@ i18n.validationPatterns = {
   nameRegex: /\b([A-ZÀ-ÿ][-,a-zÀ-ÿ. ']+[ ]*)+$/i,
 };
 
+i18n.phoneValidator = function (phone) {
+        const normalized = phone.replace(/[\s\-()]/g, '');
+        const regex = /^(\d{2,4})(\d{4,9})$/;
+        return regex.test(normalized);
+    };
 function formatDateByConvention(year, month, day) {
-  return `${month}/${day}/${year}`;
+  return `${day}.${month}.${year}`;
 }
 
 const THANK_YOU_NEXT_PAGE_SLUG = "";
@@ -286,7 +291,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const endpoint =
     `orders?order_id=${orderids.join(",")}` +
-    `&with=order_offers,customer_address_billing,customer_address_shipping,customer,transactions,cart&pageId=6M3TYeqF2xjXf5a2_H9OBNL67kkeDJEPeq1eNmAAKxOR6edJerHD3cTyG3rQNrqB`
+    `&with=order_offers,customer_address_billing,customer_address_shipping,customer,transactions,cart&pageId=k5DPnRUmXMGgdhSK3eDVIpw2w3mjDZfLjluSqIu1F35L8dixTnCZ5VXCgRNDgchA`
 
   const response = await fetch(
     `https://app-cms-api-proxy-dev-001.azurewebsites.net/vrio/${endpoint}`,

@@ -68,7 +68,7 @@ if (localStorage.getItem('sK_r')) {
 const route = async () => {
   if (localStorage.getItem('sK_r')) return JSON.parse(localStorage.getItem('sK_r'));
   const sessionId = MVMT.getSessionId() || localStorage.getItem("mvmt_session_id") || "";
-  const url = 'https://func-ab-test-events-dev-001.azurewebsites.net/api/checkRoute?id=69c2554b5eb1b4884e2a3f65&v=177486587391375&sessionId='+sessionId;
+  const url = 'https://func-ab-test-events-dev-001.azurewebsites.net/api/checkRoute?id=69c2554b5eb1b4884e2a3f65&v=177487612318156&sessionId='+sessionId;
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Network response was not ok');
@@ -6108,7 +6108,7 @@ catch (e) {
       window.GOOGLE_PLACES_API_KEY = 'AIzaSyDWvjqTDe6cVULUQ6vydbckz_NIHXjLkuA';
       window.ADDRESS_AUTOCOMPLETE_CONFIG = window.ADDRESS_AUTOCOMPLETE_CONFIG || {};
       if (!window.ADDRESS_AUTOCOMPLETE_CONFIG.restrictedCountries) {
-        window.ADDRESS_AUTOCOMPLETE_CONFIG.restrictedCountries = ["US","CA"];
+        window.ADDRESS_AUTOCOMPLETE_CONFIG.restrictedCountries = ["DE"];
       }
     </script>
     <script>
