@@ -625,7 +625,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
         ?.getAttribute("data-shipping-profile-id") || undefined;
 
   const orderData = {
-    pageId: "UJAaw1iJRtddGNAscm1hLckEBAGUhHg-VwnXg0KnMXetVBKirSwxZglDI4g-ynam",
+    pageId: "GLm2Xd_UU7Diwzsa6PRlP3L1ojLmvC3TBiwl8azuCdb3nXwRORNBvFYlGhlV-k3d",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
@@ -1389,7 +1389,7 @@ async function createOrderViaPaypal(isExpress = false) {
   const shippingProfileId = +document.querySelector(`[data-product-id="${selectedProduct.id}"]`)?.getAttribute('data-shipping-profile-id') || undefined;
   const sameAddress = isSameAddress();
   const orderData = {
-    pageId: "UJAaw1iJRtddGNAscm1hLckEBAGUhHg-VwnXg0KnMXetVBKirSwxZglDI4g-ynam",
+    pageId: "GLm2Xd_UU7Diwzsa6PRlP3L1ojLmvC3TBiwl8azuCdb3nXwRORNBvFYlGhlV-k3d",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -1687,7 +1687,7 @@ async function createOrderViaKlarna() {
   const sameAddress = isSameAddress();
 
   const orderData = {
-    pageId: "UJAaw1iJRtddGNAscm1hLckEBAGUhHg-VwnXg0KnMXetVBKirSwxZglDI4g-ynam",
+    pageId: "GLm2Xd_UU7Diwzsa6PRlP3L1ojLmvC3TBiwl8azuCdb3nXwRORNBvFYlGhlV-k3d",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
     email: email,
@@ -2065,7 +2065,7 @@ async function createOrderViaCreditCard() {
   let orderTotal = Math.max(0, Number(selectedProduct.price) * selectedProduct.quantity);
 
   const orderData = {
-    pageId: "UJAaw1iJRtddGNAscm1hLckEBAGUhHg-VwnXg0KnMXetVBKirSwxZglDI4g-ynam",
+    pageId: "GLm2Xd_UU7Diwzsa6PRlP3L1ojLmvC3TBiwl8azuCdb3nXwRORNBvFYlGhlV-k3d",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -3884,7 +3884,7 @@ async function returnPaypal() {
 ;
 
     const body = {
-        pageId: "UJAaw1iJRtddGNAscm1hLckEBAGUhHg-VwnXg0KnMXetVBKirSwxZglDI4g-ynam",
+        pageId: "GLm2Xd_UU7Diwzsa6PRlP3L1ojLmvC3TBiwl8azuCdb3nXwRORNBvFYlGhlV-k3d",
         action: "process",
         campaign_id: CAMPAIGN_ID,
         connection_id: 1,
