@@ -68,7 +68,7 @@ if (localStorage.getItem('sK_r')) {
 const route = async () => {
   if (localStorage.getItem('sK_r')) return JSON.parse(localStorage.getItem('sK_r'));
   const sessionId = MVMT.getSessionId() || localStorage.getItem("mvmt_session_id") || "";
-  const url = 'https://func-ab-test-events-dev-001.azurewebsites.net/api/checkRoute?id=69c2554b5eb1b4884e2a3f65&v=177494463559818&sessionId='+sessionId;
+  const url = 'https://func-ab-test-events-dev-001.azurewebsites.net/api/checkRoute?id=69c2554b5eb1b4884e2a3f65&v=177513246462744&sessionId='+sessionId;
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Network response was not ok');
@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", async() => {
     }
   });
 </script>
-  <link rel="stylesheet" href="styles/ty.css" /><style>@layer imported{.border-b-10 {
+  <link rel="stylesheet" href="styles/ty.css" /><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"><style>@layer imported{.border-b-10 {
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
 }}</style><style>@layer imported{.editable-on {

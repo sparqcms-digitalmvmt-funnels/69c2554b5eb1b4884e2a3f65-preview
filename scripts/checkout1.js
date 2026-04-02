@@ -625,7 +625,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
         ?.getAttribute("data-shipping-profile-id") || undefined;
 
   const orderData = {
-    pageId: "Sc_aenK0DD_syX31OEEKJvbQZopZZ5sys6APw39bm8XHhWIPk8jSQjoPGsDmOS8g",
+    pageId: "7yUrIBDgxkntiJ8MCx9wY4kMFzhG-tCvnTuUuCjN5_nCuRMJthyxzStyHHyR81J4",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
@@ -1311,6 +1311,29 @@ function getInPurchaseUpsells() {
 
   const upsells = allProducts
     .map((product) => {
+    const clickBumpSelect = product.closest("[data-cb-select]");
+      if (clickBumpSelect) {
+        const option = product.closest("[data-cb-option]");
+        const isActiveOption =
+          !!option && option.classList.contains("cb-option-active");
+        if (!isActiveOption) return;
+
+        const upsellRoot = clickBumpSelect.closest("[data-upsell]");
+        if (!upsellRoot) return;
+        const upsellToggle = upsellRoot.querySelector(
+          "input[type='checkbox']"
+        );
+        if (upsellToggle && !upsellToggle.checked) return;
+
+        return {
+          offer_id:
+            getVrioOfferIdByProductId(product.dataset.productId) ??
+            DEFAULT_OFFER_ID,
+          item_id: Number(product.dataset.productId),
+          order_offer_quantity:
+            Number(product.getAttribute("data-product-quantity")) || 1
+        };
+      }
       const isInput = product.tagName.toLowerCase() === "input";
       const input = product.querySelector("input");
       const isBundledInActiveCard =
@@ -1389,7 +1412,7 @@ async function createOrderViaPaypal(isExpress = false) {
   const shippingProfileId = +document.querySelector(`[data-product-id="${selectedProduct.id}"]`)?.getAttribute('data-shipping-profile-id') || undefined;
   const sameAddress = isSameAddress();
   const orderData = {
-    pageId: "Sc_aenK0DD_syX31OEEKJvbQZopZZ5sys6APw39bm8XHhWIPk8jSQjoPGsDmOS8g",
+    pageId: "7yUrIBDgxkntiJ8MCx9wY4kMFzhG-tCvnTuUuCjN5_nCuRMJthyxzStyHHyR81J4",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -1687,7 +1710,7 @@ async function createOrderViaKlarna() {
   const sameAddress = isSameAddress();
 
   const orderData = {
-    pageId: "Sc_aenK0DD_syX31OEEKJvbQZopZZ5sys6APw39bm8XHhWIPk8jSQjoPGsDmOS8g",
+    pageId: "7yUrIBDgxkntiJ8MCx9wY4kMFzhG-tCvnTuUuCjN5_nCuRMJthyxzStyHHyR81J4",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
     email: email,
@@ -2065,7 +2088,7 @@ async function createOrderViaCreditCard() {
   let orderTotal = Math.max(0, Number(selectedProduct.price) * selectedProduct.quantity);
 
   const orderData = {
-    pageId: "Sc_aenK0DD_syX31OEEKJvbQZopZZ5sys6APw39bm8XHhWIPk8jSQjoPGsDmOS8g",
+    pageId: "7yUrIBDgxkntiJ8MCx9wY4kMFzhG-tCvnTuUuCjN5_nCuRMJthyxzStyHHyR81J4",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -3526,6 +3549,21 @@ if (typeof validateAndSendToKlaviyo === "function") {
   const productsElements = document.querySelectorAll(
     "[data-products] [data-product-id]:not([data-bundled-upsell])"
   );
+
+  function setClickBumpOptionActive(group, optionToSelect) {
+    group.querySelectorAll("[data-cb-option]").forEach((o) => {
+      o.classList.toggle("cb-option-active", o === optionToSelect);
+    });
+    const productEl = optionToSelect.matches("[data-product-id]") ? optionToSelect : optionToSelect.querySelector("[data-product-id]");
+    const price = productEl ? prices.find((p) => String(p.id) === String(productEl.dataset?.productId)) : undefined;
+    const rawPrice = price?.finalPrice ?? price?.price ?? null;
+    if (typeof window.setClickBumpOptionActiveCallback === "function") {
+      window.setClickBumpOptionActiveCallback?.(group, optionToSelect, {
+        formattedPrice: Number.isFinite(rawPrice) ? formatPrice(rawPrice) : null
+      });
+    }
+  }
+
   productsElements.forEach((card) => {
     card.addEventListener("click", () => {
       selectedProduct = prices.find(
@@ -3544,6 +3582,27 @@ if (typeof validateAndSendToKlaviyo === "function") {
           variantsBox.appendChild(variantSelect.cloneNode(true));
         }
       }
+      if (typeof window.onProductCardSelected === "function") {
+        window.onProductCardSelected(card, selectedProduct);
+      }
+    });
+  });
+
+  document.querySelectorAll("[data-cb-select]").forEach((group) => {
+    const options = Array.from(group.querySelectorAll("[data-cb-option]"));
+    const activeOption = options.find((o) => o.classList.contains("cb-option-active")) || options[0];
+    if (activeOption) setClickBumpOptionActive(group, activeOption);
+
+    const checkbox = group.closest("[data-upsell]")?.querySelector("input[type='checkbox']") ?? null;
+    if (checkbox) {
+      checkbox.addEventListener("change", () => window.updateSummary?.());
+    }
+
+    options.forEach((option) => {
+      option.addEventListener("click", () => {
+        setClickBumpOptionActive(group, option);
+        window.updateSummary?.();
+      });
     });
   });
 
@@ -3711,8 +3770,69 @@ const toggleCreditCardSection = () => {
   }
 };
 
+const getUpsellSelectOptionProductId = (option) => {
+    const productEl = option?.matches("[data-product-id]")
+      ? option
+      : option?.querySelector("[data-product-id]");
+    return Number(productEl?.getAttribute("data-product-id"));
+  };
+
+const setUpsellSelectVisibility = (upsellRoot, group, isVisible) => {
+    if (!group) return;
+    if (isVisible) {
+      upsellRoot?.style.removeProperty("display");
+      group.style.removeProperty("display");
+      return;
+    }
+    upsellRoot?.style.setProperty("display", "none", "important");
+    group.style.setProperty("display", "none", "important");
+  };
+
+const reconcileUpsellSelectForKlarna = (group, isKlarnaPayment) => {
+    const activeOption = group.querySelector(
+      "[data-cb-option].cb-option-active"
+    );
+    const upsellRoot = group.closest("[data-upsell]");
+    const options = Array.from(group.querySelectorAll("[data-cb-option]"));
+    if (!options.length) return;
+
+    if (!isKlarnaPayment) {
+      setUpsellSelectVisibility(upsellRoot, group, true);
+      if (!activeOption && options[0]) {
+        options[0].click();
+      }
+      return;
+    }
+
+    const fallbackOption = options.find((option) => {
+      const productId = getUpsellSelectOptionProductId(option);
+      return productId && !isRecurringProductById(productId);
+    });
+
+    if (fallbackOption) {
+      setUpsellSelectVisibility(upsellRoot, group, true);
+      const activeProductId = getUpsellSelectOptionProductId(activeOption);
+      if (activeProductId && !isRecurringProductById(activeProductId)) return;
+      fallbackOption.click();
+    } else {
+      setUpsellSelectVisibility(upsellRoot, group, false);
+      options.forEach((o) => o.classList.remove("cb-option-active"));
+      const checkbox = upsellRoot?.querySelector("input[type='checkbox']");
+      if (checkbox?.checked) {
+        checkbox.checked = false;
+        checkbox.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+      return;
+    }
+  };
+
 const unselectRecurringProductsForKlarna = () => {
   const isKlarnaPayment = isKlarnaSelected();
+
+  document.querySelectorAll("[data-cb-select]").forEach((group) =>
+        reconcileUpsellSelectForKlarna(group, isKlarnaPayment)
+      );
+
   if (!isKlarnaPayment) return;
 
   if (selectedProduct && isRecurringProductById(selectedProduct.id)) {
@@ -3884,7 +4004,7 @@ async function returnPaypal() {
 ;
 
     const body = {
-        pageId: "Sc_aenK0DD_syX31OEEKJvbQZopZZ5sys6APw39bm8XHhWIPk8jSQjoPGsDmOS8g",
+        pageId: "7yUrIBDgxkntiJ8MCx9wY4kMFzhG-tCvnTuUuCjN5_nCuRMJthyxzStyHHyR81J4",
         action: "process",
         campaign_id: CAMPAIGN_ID,
         connection_id: 1,
@@ -4399,6 +4519,7 @@ function handleFreeGiftParam(allProducts) {
       updateSummary();
     }
     window.applyDiscount = applyDiscount;
+    window.updateSummary = updateSummary;
 
     function updateSummary() {
       const summaryList = document.getElementById('summary-list');
@@ -4482,16 +4603,35 @@ function handleFreeGiftParam(allProducts) {
         console.log('--> No selected product found');
       }
 
-      const checkboxes = document.querySelectorAll('div[data-summary-name] input[type="checkbox"]');
       const upsellCheckboxes = document.querySelectorAll('[data-upsell]');
 
       let productIds = [];
       upsellCheckboxes.forEach((upsell) => {
-        let upsellType = 'checkbox';
         let productIdElement = upsell.closest('[data-product-id]');
         let checkbox = null;
 
-        if (productIdElement) {
+        const upsellSelect = upsell.querySelector("[data-cb-select]");
+
+        if (upsellSelect) {
+          checkbox = upsell.querySelector("input[type='checkbox']");
+          const activeOption = upsellSelect.querySelector(
+            "[data-cb-option].cb-option-active"
+          );
+          const activeOptionProduct = activeOption?.matches("[data-product-id]")
+            ? activeOption
+            : activeOption?.querySelector("[data-product-id]");
+          if (activeOptionProduct) {
+            productIds.push({
+              id: activeOptionProduct.dataset.productId,
+              checked: checkbox ? checkbox.checked : true,
+              quantity:
+                Number(
+                  activeOptionProduct.getAttribute("data-product-quantity")
+                ) || 1
+            });
+          }
+          return;
+        } else if (productIdElement) {
           checkbox = upsell.querySelector("input[type='checkbox']");
 
           productIds.push({

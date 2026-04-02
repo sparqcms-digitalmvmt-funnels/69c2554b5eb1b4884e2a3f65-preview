@@ -422,13 +422,21 @@ const getUpsellSessionData = () => {
 };
 
 const getUniqueSelectedProductIds = () => {
-  const productIds = Array.from(document.querySelectorAll("[data-product-id]"))
+  const productIds = Array.from(document.querySelectorAll("[data-product-id]:not([data-product-card])"))
     .map((el) => Number(el.getAttribute("data-product-id")))
     .filter((value) => !isNaN(value));
   const selectedProducts = prices.filter((price) =>
     productIds.includes(price.id)
   );
-  return [...new Set(selectedProducts.map((product) => product.id))];
+  const productSelectedFromUI = document.querySelector(".product-card-active")?.getAttribute("data-product-id");
+  if (productSelectedFromUI) {
+    selectedProducts.push(prices.find((price) => price.id === Number(productSelectedFromUI)));
+  }
+  const uniqueSelectedProductIds = [...new Set(selectedProducts.map((product) => product.id))];
+  if (uniqueSelectedProductIds.length === 0) {
+    throw new Error("Missing product configuration/binding");
+  }
+  return uniqueSelectedProductIds;
 };
 
 const isRecurringProduct = (productId) => {
@@ -879,7 +887,7 @@ const processKlarnaUpsell = async () => {
         body: JSON.stringify({
           offers: offers.map((o) => JSON.stringify(o)),
           order_id: lastOrderId,
-          pageId: "DbTTx4Sqbzc6bjrXSEU2gxa-zvEo-tuZU5YEXJlY7aXdRHJw2ErzDe4VeBpdaeBj"
+          pageId: "3YZlQl4s2CEnl0oV2XKpLpjBvFBo_vU5LSX0eNqYnQlF4p1CwQSLc01gEexC7tLh"
         })
       }
     );
@@ -959,7 +967,7 @@ const processUpsell = async () => {
   }
   try {
     const orderData = JSON.parse(sessionStorage.getItem("orderData"));
-    orderData.pageId = "DbTTx4Sqbzc6bjrXSEU2gxa-zvEo-tuZU5YEXJlY7aXdRHJw2ErzDe4VeBpdaeBj";
+    orderData.pageId = "3YZlQl4s2CEnl0oV2XKpLpjBvFBo_vU5LSX0eNqYnQlF4p1CwQSLc01gEexC7tLh";
     const lastOrderId = sessionStorage.getItem("cms_oid");
     const stripePayment = JSON.parse(sessionStorage.getItem("stripePayment"));
     const isStripeTestOrder = stripePayment && !stripePayment.isLive;
@@ -973,16 +981,7 @@ const processUpsell = async () => {
     let shippingProfileId;
     orderData.offers = [];
 
-    const productIds = Array.from(document.querySelectorAll('[data-product-id]')).map( (el) => {
-      return Number(el.getAttribute('data-product-id')); 
-    })
-    .filter( (value) => {
-      return !isNaN(value);
-    });
-
-    const selectedProducts = prices.filter((price) => productIds.includes(price.id));
-    const uniqueSelectedProductIds = [...new Set(selectedProducts.map( (product) => product.id ))];
-
+    const uniqueSelectedProductIds = getUniqueSelectedProductIds();
     uniqueSelectedProductIds.forEach( (selectedProductId) => {
       const selectedProductOfferData = getVrioOfferIdByProductId(selectedProductId);
       const selectedProductOfferId =
@@ -1220,6 +1219,7 @@ if (typeof validateAndSendToKlaviyo === "function") {
 
   const takeUpsellBtns = document.querySelectorAll("[data-submit-button]");
   const refuseUpsellBtns = document.querySelectorAll("[data-decline-button]");
+  const selectableProductsFromUI = document.querySelectorAll("[data-product-card]");
 
   takeUpsellBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
@@ -1233,6 +1233,14 @@ if (typeof validateAndSendToKlaviyo === "function") {
   refuseUpsellBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
       await runDeclineFlow();
+    });
+  });
+  selectableProductsFromUI?.forEach((productEl) => {
+    productEl.addEventListener("click", () => {
+      selectableProductsFromUI.forEach((productEl) => {
+        productEl.classList.remove("product-card-active");
+      });
+      productEl.classList.add("product-card-active");
     });
   });
 });
