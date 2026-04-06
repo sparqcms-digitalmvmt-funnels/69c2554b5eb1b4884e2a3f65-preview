@@ -1,7 +1,7 @@
 
 
 
-
+const EMAIL_OVERSIGHT_VALIDATE_URL = 'https://app-cms-api-gateway-dev-001.azurewebsites.net/integration/email-oversight/validate-public';
 
 let isTest = sessionStorage.getItem("test");
 if (isTest === null && isTest !== false) {
@@ -111,6 +111,7 @@ const i18n = {
     "systemErrorOffer": "There was a problem with this offer. Please contact support or try again later.",
     "systemErrorGeneric": "Something went wrong processing your order. Please try again or contact support if the problem persists.",
     "klarnaNotAvailableRecurring": "Klarna is not available for recurring products.",
+    "klarnaNotAvailable": "Klarna is not available.",
     "klarnaSubscriptionsNotSupported": "Subscriptions are not supported with Klarna",
     "klarnaOrderFailed": "Something went wrong creating the order, please try again",
     "klarnaProcessingFailed": "Something went wrong processing your order, please try again",
@@ -606,7 +607,7 @@ async function returnKlarna() {
   if (!orderId) {
     console.error("Klarna return: no order ID found in sessionStorage");
     if (preload) preload.style.display = "none";
-    showErrorAndRedirect(i18n.errors.orderNotFoundRedirect, "checkout");
+    showErrorAndRedirect(i18n.errors.orderNotFound, "checkout");
     return;
   }
 
@@ -729,14 +730,14 @@ async function returnKlarna() {
       );
       return;
     }
-    showErrorAndRedirect(i18n.errors.unexpectedErrorRedirect, "checkout");
+    showErrorAndRedirect(i18n.errors.unexpectedError, "checkout");
   }
 }
 
 const declineKlarnaUpsell = async () => {
   if (!isKlarnaPayment) {
     showErrorAndRedirect(
-      "Klarna is not available",
+      i18n.errors.klarnaNotAvailable,
       "checkout"
     );
     return;
@@ -774,7 +775,7 @@ const declineKlarnaUpsell = async () => {
       return;
     }
     showErrorAndRedirect(
-      error.message || i18n.errors.unexpectedErrorRedirect,
+      error.message || i18n.errors.unexpectedError,
       "checkout"
     );
   } finally {
@@ -786,7 +787,7 @@ const declineKlarnaUpsell = async () => {
 
 const processKlarnaUpsell = async () => {
   if (!isKlarnaPayment) {
-    throw new Error("Klarna is not available");
+    throw new Error(i18n.errors.klarnaNotAvailable);
   }
   setUpsellButtonsDisabled(true);
 
@@ -886,7 +887,7 @@ const processKlarnaUpsell = async () => {
         body: JSON.stringify({
           offers: offers.map((o) => JSON.stringify(o)),
           order_id: lastOrderId,
-          pageId: "_geRBnC3NamFbCANTJfRs6ivs5ZyZq7wB2NfBdYDNt3VT4NPIeSNhcJDZUbhmfWw"
+          pageId: "-2-EDXYGKpiuF-lkqN2FLR0pM1lGeC7RK-fe7MwtrWWsgS3AcR9U9u28tkoxgXxi"
         })
       }
     );
@@ -966,7 +967,7 @@ const processUpsell = async () => {
   }
   try {
     const orderData = JSON.parse(sessionStorage.getItem("orderData"));
-    orderData.pageId = "_geRBnC3NamFbCANTJfRs6ivs5ZyZq7wB2NfBdYDNt3VT4NPIeSNhcJDZUbhmfWw";
+    orderData.pageId = "-2-EDXYGKpiuF-lkqN2FLR0pM1lGeC7RK-fe7MwtrWWsgS3AcR9U9u28tkoxgXxi";
     const lastOrderId = sessionStorage.getItem("cms_oid");
     const stripePayment = JSON.parse(sessionStorage.getItem("stripePayment"));
     const isStripeTestOrder = stripePayment && !stripePayment.isLive;
