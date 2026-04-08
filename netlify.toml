@@ -1,0 +1,4 @@
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=600, stale-while-revalidate=604800"

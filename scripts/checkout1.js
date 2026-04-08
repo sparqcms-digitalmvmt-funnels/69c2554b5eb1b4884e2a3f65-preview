@@ -302,7 +302,7 @@ const resolveShippingProfile = (productEl) => {
 const DEFAULT_OFFER_ID = '99';
 const getVrioOfferInfoByProductId = (productId) =>
   ((productId) => {
-    const vrioOffers = [{"id":99,"offerTypeId":1,"name":"Vi-Shift - Network","items":[{"name":"1x EXTRA Vi-Shift Glasses","id":232,"quantity":1,"price":19.99,"shippable":false},{"name":"1x Flexible Glasses","id":224,"quantity":1,"price":29.99,"shippable":false},{"name":"1x USB 3.0 Quick Charger","id":59,"quantity":1,"price":0,"shippable":false},{"name":"2x Vi-Shift Glasses","id":225,"quantity":1,"price":53.98,"shippable":false},{"name":"3 Year Extended Warranty","id":230,"quantity":1,"price":10,"shippable":false},{"name":"3x Vi-Shift Glasses","id":226,"quantity":1,"price":71.97,"shippable":false},{"name":"4x Vi-Shift Glasses","id":227,"quantity":1,"price":83.96,"shippable":false},{"name":"5x Vi-Shift Glasses","id":228,"quantity":1,"price":89.95,"shippable":false},{"name":"Flexible Glasses","id":223,"quantity":1,"price":0,"shippable":true},{"name":"Journey Package Protection","id":231,"quantity":1,"price":3.5,"shippable":false},{"name":"USB 3.0 Quick Charger","id":36,"quantity":1,"price":0,"shippable":true},{"name":"Vi-Shift Glasses - Expedited Shipping","id":233,"quantity":1,"price":9.99,"shippable":false},{"name":"Vi-Shift Protective Case Upgrade","id":229,"quantity":1,"price":9.95,"shippable":false}]}];
+    const vrioOffers = [{"id":99,"offerTypeId":1,"name":"Vi-Shift - Network","items":[{"id":232,"name":"1x EXTRA Vi-Shift Glasses","quantity":1,"price":19.99,"shippable":false},{"id":224,"name":"1x Flexible Glasses","quantity":1,"price":29.99,"shippable":false},{"id":59,"name":"1x USB 3.0 Quick Charger","quantity":1,"price":0,"shippable":false},{"id":225,"name":"2x Vi-Shift Glasses","quantity":1,"price":53.98,"shippable":false},{"id":230,"name":"3 Year Extended Warranty","quantity":1,"price":10,"shippable":false},{"id":226,"name":"3x Vi-Shift Glasses","quantity":1,"price":71.97,"shippable":false},{"id":227,"name":"4x Vi-Shift Glasses","quantity":1,"price":83.96,"shippable":false},{"id":228,"name":"5x Vi-Shift Glasses","quantity":1,"price":89.95,"shippable":false},{"id":223,"name":"Flexible Glasses","quantity":1,"price":0,"shippable":true},{"id":231,"name":"Journey Package Protection","quantity":1,"price":3.5,"shippable":false},{"id":36,"name":"USB 3.0 Quick Charger","quantity":1,"price":0,"shippable":true},{"id":233,"name":"Vi-Shift Glasses - Expedited Shipping","quantity":1,"price":9.99,"shippable":false},{"id":229,"name":"Vi-Shift Protective Case Upgrade","quantity":1,"price":9.95,"shippable":false}]}];
     const recurringOfferTypeIds = [2, '2'];
     let matchedOffer = null;
     let isRecurringOffer = false;
@@ -329,7 +329,7 @@ const getVrioOfferIdByProductId = (productId) =>
 sessionStorage.setItem("integrationId", INTEGRATION_ID);
 
 const getPrices = () => {
-  return [{"name":"1x EXTRA Vi-Shift Glasses","id":232,"quantity":1,"price":19.99,"shippable":false,"fullPrice":19.99,"finalPrice":19.99,"productName":"1x EXTRA Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"name":"1x Flexible Glasses","id":224,"quantity":1,"price":29.99,"shippable":false,"fullPrice":29.99,"finalPrice":29.99,"productName":"1x Flexible Glasses","discountAmount":0,"discountPercentage":0},{"name":"1x USB 3.0 Quick Charger","id":59,"quantity":1,"price":0,"shippable":false,"fullPrice":15.98,"finalPrice":15.98,"productName":"1x USB 3.0 Quick Charger","discountAmount":0,"discountPercentage":0},{"name":"2x Vi-Shift Glasses","id":225,"quantity":1,"price":53.98,"shippable":false,"fullPrice":53.98,"finalPrice":53.98,"productName":"2x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"name":"3 Year Extended Warranty","id":230,"quantity":1,"price":10,"shippable":false,"fullPrice":10,"finalPrice":10,"productName":"3 Year Extended Warranty","discountAmount":0,"discountPercentage":0},{"name":"3x Vi-Shift Glasses","id":226,"quantity":1,"price":71.97,"shippable":false,"fullPrice":123.41,"finalPrice":123.41,"productName":"3x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"name":"4x Vi-Shift Glasses","id":227,"quantity":1,"price":83.96,"shippable":false,"fullPrice":1242.35,"finalPrice":1242.35,"productName":"4x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"name":"5x Vi-Shift Glasses","id":228,"quantity":1,"price":89.95,"shippable":false,"fullPrice":2341.23,"finalPrice":2341.23,"productName":"5x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"name":"Journey Package Protection","id":231,"quantity":1,"price":3.5,"shippable":false,"fullPrice":3.5,"finalPrice":3.5,"productName":"Journey Package Protection","discountAmount":0,"discountPercentage":0},{"name":"Vi-Shift Glasses - Expedited Shipping","id":233,"quantity":1,"price":9.99,"shippable":false,"fullPrice":9.99,"finalPrice":9.99,"productName":"Vi-Shift Glasses - Expedited Shipping","discountAmount":0,"discountPercentage":0},{"name":"Vi-Shift Protective Case Upgrade","id":229,"quantity":1,"price":9.95,"shippable":false,"fullPrice":9.95,"finalPrice":9.95,"productName":"Vi-Shift Protective Case Upgrade","discountAmount":0,"discountPercentage":0}]
+  return [{"id":232,"name":"1x EXTRA Vi-Shift Glasses","quantity":1,"price":19.99,"shippable":false,"fullPrice":19.99,"finalPrice":19.99,"productName":"1x EXTRA Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":224,"name":"1x Flexible Glasses","quantity":1,"price":29.99,"shippable":false,"fullPrice":29.99,"finalPrice":29.99,"productName":"1x Flexible Glasses","discountAmount":0,"discountPercentage":0},{"id":59,"name":"1x USB 3.0 Quick Charger","quantity":1,"price":0,"shippable":false,"fullPrice":15.98,"finalPrice":15.98,"productName":"1x USB 3.0 Quick Charger","discountAmount":0,"discountPercentage":0},{"id":225,"name":"2x Vi-Shift Glasses","quantity":1,"price":53.98,"shippable":false,"fullPrice":53.98,"finalPrice":53.98,"productName":"2x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":230,"name":"3 Year Extended Warranty","quantity":1,"price":10,"shippable":false,"fullPrice":10,"finalPrice":10,"productName":"3 Year Extended Warranty","discountAmount":0,"discountPercentage":0},{"id":226,"name":"3x Vi-Shift Glasses","quantity":1,"price":71.97,"shippable":false,"fullPrice":123.41,"finalPrice":123.41,"productName":"3x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":227,"name":"4x Vi-Shift Glasses","quantity":1,"price":83.96,"shippable":false,"fullPrice":1242.35,"finalPrice":1242.35,"productName":"4x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":228,"name":"5x Vi-Shift Glasses","quantity":1,"price":89.95,"shippable":false,"fullPrice":2341.23,"finalPrice":2341.23,"productName":"5x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":231,"name":"Journey Package Protection","quantity":1,"price":3.5,"shippable":false,"fullPrice":3.5,"finalPrice":3.5,"productName":"Journey Package Protection","discountAmount":0,"discountPercentage":0},{"id":233,"name":"Vi-Shift Glasses - Expedited Shipping","quantity":1,"price":9.99,"shippable":false,"fullPrice":9.99,"finalPrice":9.99,"productName":"Vi-Shift Glasses - Expedited Shipping","discountAmount":0,"discountPercentage":0},{"id":229,"name":"Vi-Shift Protective Case Upgrade","quantity":1,"price":9.95,"shippable":false,"fullPrice":9.95,"finalPrice":9.95,"productName":"Vi-Shift Protective Case Upgrade","discountAmount":0,"discountPercentage":0}]
 };
 
 const SUPPORTED_ADDRESS_COUNTRIES = [{"name":"United States of America","iso_2":"US"},{"name":"Canada","iso_2":"CA"},{"name":"United Kingdom","iso_2":"GB"},{"name":"Australia","iso_2":"AU"},{"name":"Germany","iso_2":"DE"},{"name":"France","iso_2":"FR"},{"name":"Spain","iso_2":"ES"},{"name":"Italy","iso_2":"IT"}];
@@ -625,7 +625,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
         ?.getAttribute("data-shipping-profile-id") || undefined;
 
   const orderData = {
-    pageId: "_S9IXqbZkFT7OuDMdlVqz_0_aA5rGZYlToq8wuSg5merIaiWnbG9tXjxrMdCTN0C",
+    pageId: "c12spNtqDsgywq_c3TwL0HoXdYFWH1SPEjbGVDxAoVgWa8c4G4TJxgjN1KBERpC3",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
@@ -1412,7 +1412,7 @@ async function createOrderViaPaypal(isExpress = false) {
   const shippingProfileId = +document.querySelector(`[data-product-id="${selectedProduct.id}"]`)?.getAttribute('data-shipping-profile-id') || undefined;
   const sameAddress = isSameAddress();
   const orderData = {
-    pageId: "_S9IXqbZkFT7OuDMdlVqz_0_aA5rGZYlToq8wuSg5merIaiWnbG9tXjxrMdCTN0C",
+    pageId: "c12spNtqDsgywq_c3TwL0HoXdYFWH1SPEjbGVDxAoVgWa8c4G4TJxgjN1KBERpC3",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -1710,7 +1710,7 @@ async function createOrderViaKlarna() {
   const sameAddress = isSameAddress();
 
   const orderData = {
-    pageId: "_S9IXqbZkFT7OuDMdlVqz_0_aA5rGZYlToq8wuSg5merIaiWnbG9tXjxrMdCTN0C",
+    pageId: "c12spNtqDsgywq_c3TwL0HoXdYFWH1SPEjbGVDxAoVgWa8c4G4TJxgjN1KBERpC3",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
     email: email,
@@ -2088,7 +2088,7 @@ async function createOrderViaCreditCard() {
   let orderTotal = Math.max(0, Number(selectedProduct.price) * selectedProduct.quantity);
 
   const orderData = {
-    pageId: "_S9IXqbZkFT7OuDMdlVqz_0_aA5rGZYlToq8wuSg5merIaiWnbG9tXjxrMdCTN0C",
+    pageId: "c12spNtqDsgywq_c3TwL0HoXdYFWH1SPEjbGVDxAoVgWa8c4G4TJxgjN1KBERpC3",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -4004,7 +4004,7 @@ async function returnPaypal() {
 ;
 
     const body = {
-        pageId: "_S9IXqbZkFT7OuDMdlVqz_0_aA5rGZYlToq8wuSg5merIaiWnbG9tXjxrMdCTN0C",
+        pageId: "c12spNtqDsgywq_c3TwL0HoXdYFWH1SPEjbGVDxAoVgWa8c4G4TJxgjN1KBERpC3",
         action: "process",
         campaign_id: CAMPAIGN_ID,
         connection_id: 1,
