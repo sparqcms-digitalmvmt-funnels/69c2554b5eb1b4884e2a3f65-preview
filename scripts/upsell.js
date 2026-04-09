@@ -1,7 +1,7 @@
 
 
 
-const EMAIL_OVERSIGHT_VALIDATE_URL = 'https://app-cms-api-gateway-dev-001.azurewebsites.net/integration/email-oversight/validate-public';
+
 
 let isTest = sessionStorage.getItem("test");
 if (isTest === null && isTest !== false) {
@@ -887,7 +887,7 @@ const processKlarnaUpsell = async () => {
         body: JSON.stringify({
           offers: offers.map((o) => JSON.stringify(o)),
           order_id: lastOrderId,
-          pageId: "u57kUNFzhXHl5xcRvkwo7d-HGczwBYXEaIqhzIjZfr6UcztWaApQFT916FhOa2FP"
+          pageId: "3bMmBIVepIMTD4HEgcqHtRcNrZgw_e2ZPS2axnMiLEUC-_6fUCyVfbONYtQS0ot-"
         })
       }
     );
@@ -967,7 +967,7 @@ const processUpsell = async () => {
   }
   try {
     const orderData = JSON.parse(sessionStorage.getItem("orderData"));
-    orderData.pageId = "u57kUNFzhXHl5xcRvkwo7d-HGczwBYXEaIqhzIjZfr6UcztWaApQFT916FhOa2FP";
+    orderData.pageId = "3bMmBIVepIMTD4HEgcqHtRcNrZgw_e2ZPS2axnMiLEUC-_6fUCyVfbONYtQS0ot-";
     const lastOrderId = sessionStorage.getItem("cms_oid");
     const stripePayment = JSON.parse(sessionStorage.getItem("stripePayment"));
     const isStripeTestOrder = stripePayment && !stripePayment.isLive;
