@@ -111,7 +111,6 @@ const i18n = {
     "systemErrorOffer": "There was a problem with this offer. Please contact support or try again later.",
     "systemErrorGeneric": "Something went wrong processing your order. Please try again or contact support if the problem persists.",
     "klarnaNotAvailableRecurring": "Klarna is not available for recurring products.",
-    "klarnaNotAvailable": "Klarna is not available.",
     "klarnaSubscriptionsNotSupported": "Subscriptions are not supported with Klarna",
     "klarnaOrderFailed": "Something went wrong creating the order, please try again",
     "klarnaProcessingFailed": "Something went wrong processing your order, please try again",
@@ -137,7 +136,7 @@ const i18n = {
 
 // Validation patterns (RegExp – cannot be serialised as JSON)
 i18n.validationPatterns = {
-  zipCodeRegex: /^(?:\d{5}(?:-\d{4})?|[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d|\d{4}|[A-Za-z]{1,2}\d[A-Za-z\d]?\s?\d[ABD-HJLN-UW-Z]{2})$/,
+  zipCodeRegex: /^(?:\d{5}(?:-\d{4})?|[A-Za-z]\d[A-Za-z](?:[ -]?\d[A-Za-z]\d)?|\d{4}|[A-Za-z]{1,2}\d[A-Za-z\d]?\s?\d[ABD-HJLN-UW-Z]{2})$/,
   nameRegex: /\b([A-ZÀ-ÿ][-,a-zÀ-ÿ. ']+[ ]*)+$/i,
 };
 
@@ -607,7 +606,7 @@ async function returnKlarna() {
   if (!orderId) {
     console.error("Klarna return: no order ID found in sessionStorage");
     if (preload) preload.style.display = "none";
-    showErrorAndRedirect(i18n.errors.orderNotFound, "checkout");
+    showErrorAndRedirect(i18n.errors.orderNotFoundRedirect, "checkout");
     return;
   }
 
@@ -730,14 +729,14 @@ async function returnKlarna() {
       );
       return;
     }
-    showErrorAndRedirect(i18n.errors.unexpectedError, "checkout");
+    showErrorAndRedirect(i18n.errors.unexpectedErrorRedirect, "checkout");
   }
 }
 
 const declineKlarnaUpsell = async () => {
   if (!isKlarnaPayment) {
     showErrorAndRedirect(
-      i18n.errors.klarnaNotAvailable,
+      "Klarna is not available",
       "checkout"
     );
     return;
@@ -775,7 +774,7 @@ const declineKlarnaUpsell = async () => {
       return;
     }
     showErrorAndRedirect(
-      error.message || i18n.errors.unexpectedError,
+      error.message || i18n.errors.unexpectedErrorRedirect,
       "checkout"
     );
   } finally {
@@ -787,7 +786,7 @@ const declineKlarnaUpsell = async () => {
 
 const processKlarnaUpsell = async () => {
   if (!isKlarnaPayment) {
-    throw new Error(i18n.errors.klarnaNotAvailable);
+    throw new Error("Klarna is not available");
   }
   setUpsellButtonsDisabled(true);
 
@@ -887,7 +886,7 @@ const processKlarnaUpsell = async () => {
         body: JSON.stringify({
           offers: offers.map((o) => JSON.stringify(o)),
           order_id: lastOrderId,
-          pageId: "aInxadH1Z0MQ7CoKpMT6v8qEcd9FqJ22CQ4iHEEVX6Jqb3LPGxWgBsz_Rxa221LC"
+          pageId: "zz7d4AO6DvX-9t8KA9s-bniexPaZZWkNinbw-5WKigijvf0cv8uTdDsOad7TyCdf"
         })
       }
     );
@@ -967,7 +966,7 @@ const processUpsell = async () => {
   }
   try {
     const orderData = JSON.parse(sessionStorage.getItem("orderData"));
-    orderData.pageId = "aInxadH1Z0MQ7CoKpMT6v8qEcd9FqJ22CQ4iHEEVX6Jqb3LPGxWgBsz_Rxa221LC";
+    orderData.pageId = "zz7d4AO6DvX-9t8KA9s-bniexPaZZWkNinbw-5WKigijvf0cv8uTdDsOad7TyCdf";
     const lastOrderId = sessionStorage.getItem("cms_oid");
     const stripePayment = JSON.parse(sessionStorage.getItem("stripePayment"));
     const isStripeTestOrder = stripePayment && !stripePayment.isLive;

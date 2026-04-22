@@ -73,12 +73,15 @@ function getNextPageSlugForRedirect() {
   return "/";
 }
 
-let isTest = JSON.parse(sessionStorage.getItem("test"));
+let isTest = sessionStorage.getItem("test");
 
-if (isTest === null && isTest !== false) {
+if (isTest === null) {
   isTest = true;
-  sessionStorage.setItem("test", isTest);
+  sessionStorage.setItem("test", String(isTest));
+} else {
+  isTest = isTest === "true";
 }
+
 const removeKlarnaParamsFromUrl = (urlValue) => {
   const sourceUrl = urlValue || window.location.href;
   const url = new URL(sourceUrl, window.location.origin);
@@ -224,7 +227,6 @@ const i18n = {
     "systemErrorOffer": "There was a problem with this offer. Please contact support or try again later.",
     "systemErrorGeneric": "Something went wrong processing your order. Please try again or contact support if the problem persists.",
     "klarnaNotAvailableRecurring": "Klarna is not available for recurring products.",
-    "klarnaNotAvailable": "Klarna is not available.",
     "klarnaSubscriptionsNotSupported": "Subscriptions are not supported with Klarna",
     "klarnaOrderFailed": "Something went wrong creating the order, please try again",
     "klarnaProcessingFailed": "Something went wrong processing your order, please try again",
@@ -250,7 +252,7 @@ const i18n = {
 
 // Validation patterns (RegExp – cannot be serialised as JSON)
 i18n.validationPatterns = {
-  zipCodeRegex: /^(?:\d{5}(?:-\d{4})?|[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d|\d{4}|[A-Za-z]{1,2}\d[A-Za-z\d]?\s?\d[ABD-HJLN-UW-Z]{2})$/,
+  zipCodeRegex: /^(?:\d{5}(?:-\d{4})?|[A-Za-z]\d[A-Za-z](?:[ -]?\d[A-Za-z]\d)?|\d{4}|[A-Za-z]{1,2}\d[A-Za-z\d]?\s?\d[ABD-HJLN-UW-Z]{2})$/,
   nameRegex: /\b([A-ZÀ-ÿ][-,a-zÀ-ÿ. ']+[ ]*)+$/i,
 };
 
@@ -333,28 +335,6 @@ const getPrices = () => {
 };
 
 const SUPPORTED_ADDRESS_COUNTRIES = [{"name":"United States of America","iso_2":"US"},{"name":"Canada","iso_2":"CA"},{"name":"United Kingdom","iso_2":"GB"},{"name":"Australia","iso_2":"AU"},{"name":"Germany","iso_2":"DE"},{"name":"France","iso_2":"FR"},{"name":"Spain","iso_2":"ES"},{"name":"Italy","iso_2":"IT"}];
-
-const mergeWithSupportedAddressCountries = (rawCountries = []) => {
-  const mergedCountries = new Map();
-
-  (Array.isArray(rawCountries) ? rawCountries : []).forEach((country) => {
-    const iso2 = String(country?.iso_2 || country?.code || country?.iso2 || "").toUpperCase();
-    if (!iso2) return;
-    mergedCountries.set(iso2, {
-      ...country,
-      iso_2: iso2,
-      name: country?.name || country?.countryName || iso2,
-    });
-  });
-
-  SUPPORTED_ADDRESS_COUNTRIES.forEach((country) => {
-    if (!mergedCountries.has(country.iso_2)) {
-      mergedCountries.set(country.iso_2, country);
-    }
-  });
-
-  return Array.from(mergedCountries.values());
-};
 
 const getCountries = () => {
   // Campaign countries are the source of truth
@@ -625,7 +605,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
         ?.getAttribute("data-shipping-profile-id") || undefined;
 
   const orderData = {
-    pageId: "kb2IExKlsgfqruh77LLni4a-4Tt1rU60vxO5_N7J4UAqZmk8RHtHFDzvWLzZzCOL",
+    pageId: "h9ol-CaG_kE7wBSnAhzcZZJcdueOVHrka4AP4aNUgiR8YaaqpZgGrzGzeaVwuhCE",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
@@ -1336,7 +1316,7 @@ function getInPurchaseUpsells() {
         };
       }
       const isInput = product.tagName.toLowerCase() === "input";
-      const input = product.querySelector("input");
+      const input = product.querySelector("input");    
       const isBundledInActiveCard =
         product.hasAttribute('data-bundled-upsell') &&
         !!product.closest(".product-card-active");
@@ -1413,7 +1393,7 @@ async function createOrderViaPaypal(isExpress = false) {
   const shippingProfileId = +document.querySelector(`[data-product-id="${selectedProduct.id}"]`)?.getAttribute('data-shipping-profile-id') || undefined;
   const sameAddress = isSameAddress();
   const orderData = {
-    pageId: "kb2IExKlsgfqruh77LLni4a-4Tt1rU60vxO5_N7J4UAqZmk8RHtHFDzvWLzZzCOL",
+    pageId: "h9ol-CaG_kE7wBSnAhzcZZJcdueOVHrka4AP4aNUgiR8YaaqpZgGrzGzeaVwuhCE",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -1657,7 +1637,7 @@ async function createOrderViaPaypal(isExpress = false) {
 
 async function createOrderViaKlarna() {
   if (!isKlarnaEnabled) {
-    showError(i18n.errors.klarnaNotAvailable);
+    showError("Klarna is not available");
     return;
   }
 
@@ -1712,7 +1692,7 @@ async function createOrderViaKlarna() {
   const sameAddress = isSameAddress();
 
   const orderData = {
-    pageId: "kb2IExKlsgfqruh77LLni4a-4Tt1rU60vxO5_N7J4UAqZmk8RHtHFDzvWLzZzCOL",
+    pageId: "h9ol-CaG_kE7wBSnAhzcZZJcdueOVHrka4AP4aNUgiR8YaaqpZgGrzGzeaVwuhCE",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
     email: email,
@@ -1837,7 +1817,6 @@ async function createOrderViaKlarna() {
   saveProductCustomData(selectedProductElement);
   let { product, quantity } =
     getBindedShippableProductAndQuantity(selectedProductElement) ?? {};
-    
   if (product) {
     const bindedOfferData = getVrioOfferInfoByProductId(product.id);
     if (!bindedOfferData?.isRecurringOffer) {
@@ -2091,7 +2070,7 @@ async function createOrderViaCreditCard() {
   let orderTotal = Math.max(0, Number(selectedProduct.price) * selectedProduct.quantity);
 
   const orderData = {
-    pageId: "kb2IExKlsgfqruh77LLni4a-4Tt1rU60vxO5_N7J4UAqZmk8RHtHFDzvWLzZzCOL",
+    pageId: "h9ol-CaG_kE7wBSnAhzcZZJcdueOVHrka4AP4aNUgiR8YaaqpZgGrzGzeaVwuhCE",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -2358,8 +2337,6 @@ async function createOrderViaCreditCard() {
           }
           return;
         }
-
-        showPreloader(false);
 
         var msg = (result && result.error && result.error.message) || (result && result.message) || i18n.errors.creditCardOrderFailed;
         msg = humanizeCountryError(msg);
@@ -2651,7 +2628,7 @@ const getStates = async (countryIso2Code) => {
       (c) => String(c.code || c.iso_2 || c.iso2 || '').toUpperCase() === iso2
     );
     const states = (found && Array.isArray(found.states)) ? found.states : [];
-    return states.map(s => ({ iso2: s.code || s.iso_2 || s.abbr || s.name || s.label || '', name: s.name || s.label || '' }));    
+    return states.map(s => ({ iso2: s.iso2 || s.code || s.iso_2 || s.abbr || '', name: s.name || s.label || '' }));
   } catch (error) {
     console.error("Error getting states", error);
     return [];
@@ -2743,7 +2720,7 @@ const populateStates = async (stateSelector, countryIso2Code) => {
 
   states.forEach((state) => {
     const option = document.createElement("option");
-    option.value = state.iso2 || state.name || '';
+    option.value = state.iso2 || '';
     option.innerText = state.name;
     stateEl.appendChild(option);
   });
@@ -3467,6 +3444,7 @@ if (typeof validateAndSendToKlaviyo === "function") {
         selector: "[name='billingZip']",
         rules: [
           { rule: "required", errorMessage: i18n.validation.billingZipRequired },
+          { rule: "customRegexp", value: i18n.validationPatterns.zipCodeRegex, errorMessage: i18n.validation.zipInvalid },
         ],
       },
     ];
@@ -4008,7 +3986,7 @@ async function returnPaypal() {
 ;
 
     const body = {
-        pageId: "kb2IExKlsgfqruh77LLni4a-4Tt1rU60vxO5_N7J4UAqZmk8RHtHFDzvWLzZzCOL",
+        pageId: "h9ol-CaG_kE7wBSnAhzcZZJcdueOVHrka4AP4aNUgiR8YaaqpZgGrzGzeaVwuhCE",
         action: "process",
         campaign_id: CAMPAIGN_ID,
         connection_id: 1,
@@ -4558,17 +4536,17 @@ function handleFreeGiftParam(allProducts) {
       const currentUnitPrice = Number(currentProduct?.price || 0);
 
       if (currentProduct) {
-        if (shouldSkipRecurring && isRecurringByProductId(currentProduct.id)) {
-          // Skip recurring main product for Klarna
-        } else {
-        let quantity = Number(currentProduct.quantity || 1);
         const fullPriceNode = document.querySelector(
           `[data-product-card][data-product-id='${currentProduct.id}'] [data_product_full_price]`,
         );
         const fullPriceElement = fullPriceNode
           ? parseFloat(fullPriceNode.innerHTML.replaceAll(",", ".").replace(/[^0-9.,]+/g, '')) || 0
-          : currentUnitPrice * quantity;
+          : currentUnitPrice;
         hasItems = true;
+        if (shouldSkipRecurring && isRecurringByProductId(currentProduct.id)) {
+          // Skip recurring main product for Klarna
+        } else {
+        let quantity = Number(currentProduct.quantity || 1);
         const itemContainer = document.createElement('div');
         itemContainer.style.display = 'flex';
         itemContainer.style.justifyContent = 'space-between';
@@ -4598,7 +4576,7 @@ function handleFreeGiftParam(allProducts) {
 
         itemContainer.appendChild(itemDetails);
         itemContainer.appendChild(priceElement);
-        if (summaryList) summaryList.appendChild(itemContainer);
+        summaryList.appendChild(itemContainer);
 
         total += currentUnitPrice * quantity;
         subTotal += fullPriceElement;
@@ -4707,7 +4685,7 @@ function handleFreeGiftParam(allProducts) {
           subTotal += isGift ? 0 : product.finalPrice * productObject.quantity;
         }
       });
-      if (!hasItems && summaryList) {
+      if (!hasItems) {
         const noItemsMessage = document.createElement('div');
         noItemsMessage.textContent = '';
         noItemsMessage.style.textAlign = 'center';
