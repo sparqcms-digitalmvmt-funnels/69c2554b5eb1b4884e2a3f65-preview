@@ -73,6 +73,29 @@ function getNextPageSlugForRedirect() {
   return "/";
 }
 
+// Pre-fetch the client IP on page load so it's ready when the checkout button is clicked.
+// Stored as a promise — awaiting it multiple times is safe and always resolves to the same value.
+const clientIPPromise = (async () => {
+  try {
+    const response = await fetch("https://api.ipify.org?format=json");
+    const data = await response.json();
+    return data.ip;
+  } catch {
+    return "0.0.0.0";
+  }
+})();
+
+// Prefetch the next page so the browser can start loading it in the background.
+// By the time the order completes and we redirect, it will already be cached.
+
+(function() {
+  var link = document.createElement("link");
+  link.rel = "prefetch";
+  link.href = "/product/1/upsell";
+  document.head.appendChild(link);
+})();
+
+
 let isTest = sessionStorage.getItem("test");
 
 if (isTest === null) {
@@ -637,7 +660,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
         ?.getAttribute("data-shipping-profile-id") || undefined;
 
   const orderData = {
-    pageId: "caOByg1z76IkO1eMD-nTtKoM4zwIFPe9d4VQVMJ3BglPydZ7drF9_8jo-ES2a1dp",
+    pageId: "RtGu8J3ZHoVySxd04DeOcuHNkaFnrTPnS_Y8kgDO3AsjbycMG2fomEauE44qwREG",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
@@ -1239,14 +1262,7 @@ let formEl, generalError;
 const removeQuantityFromName = (name) => name.replace(/^\d+x\s*/i, "");
 
 async function getClientIP() {
-  try {
-    const response = await fetch("https://api.ipify.org?format=json");
-    const data = await response.json();
-    return data.ip;
-  } catch (error) {
-    console.error("Error fetching IP:", error);
-    return "0.0.0.0";
-  }
+  return clientIPPromise;
 }
 
 function getDataFromSessionStorage() {
@@ -1425,7 +1441,7 @@ async function createOrderViaPaypal(isExpress = false) {
   const shippingProfileId = +document.querySelector(`[data-product-id="${selectedProduct.id}"]`)?.getAttribute('data-shipping-profile-id') || undefined;
   const sameAddress = isSameAddress();
   const orderData = {
-    pageId: "caOByg1z76IkO1eMD-nTtKoM4zwIFPe9d4VQVMJ3BglPydZ7drF9_8jo-ES2a1dp",
+    pageId: "RtGu8J3ZHoVySxd04DeOcuHNkaFnrTPnS_Y8kgDO3AsjbycMG2fomEauE44qwREG",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -1724,7 +1740,7 @@ async function createOrderViaKlarna() {
   const sameAddress = isSameAddress();
 
   const orderData = {
-    pageId: "caOByg1z76IkO1eMD-nTtKoM4zwIFPe9d4VQVMJ3BglPydZ7drF9_8jo-ES2a1dp",
+    pageId: "RtGu8J3ZHoVySxd04DeOcuHNkaFnrTPnS_Y8kgDO3AsjbycMG2fomEauE44qwREG",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
     email: email,
@@ -2103,7 +2119,7 @@ async function createOrderViaCreditCard() {
   let orderTotal = Math.max(0, Number(selectedProduct.price) * selectedProduct.quantity);
 
   const orderData = {
-    pageId: "caOByg1z76IkO1eMD-nTtKoM4zwIFPe9d4VQVMJ3BglPydZ7drF9_8jo-ES2a1dp",
+    pageId: "RtGu8J3ZHoVySxd04DeOcuHNkaFnrTPnS_Y8kgDO3AsjbycMG2fomEauE44qwREG",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -4355,7 +4371,7 @@ async function returnPaypal() {
 ;
 
     const body = {
-        pageId: "caOByg1z76IkO1eMD-nTtKoM4zwIFPe9d4VQVMJ3BglPydZ7drF9_8jo-ES2a1dp",
+        pageId: "RtGu8J3ZHoVySxd04DeOcuHNkaFnrTPnS_Y8kgDO3AsjbycMG2fomEauE44qwREG",
         action: "process",
         campaign_id: CAMPAIGN_ID,
         connection_id: 1,
