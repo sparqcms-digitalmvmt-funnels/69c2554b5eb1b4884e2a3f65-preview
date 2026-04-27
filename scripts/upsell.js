@@ -1,7 +1,7 @@
 
 
 
-
+const EMAIL_OVERSIGHT_VALIDATE_URL = 'https://app-cms-api-gateway-dev-001.azurewebsites.net/integration/email-oversight/validate-public';
 
 let isTest = sessionStorage.getItem("test");
 if (isTest === null && isTest !== false) {
@@ -111,6 +111,7 @@ const i18n = {
     "systemErrorOffer": "There was a problem with this offer. Please contact support or try again later.",
     "systemErrorGeneric": "Something went wrong processing your order. Please try again or contact support if the problem persists.",
     "klarnaNotAvailableRecurring": "Klarna is not available for recurring products.",
+    "klarnaNotAvailable": "Klarna is not available.",
     "klarnaSubscriptionsNotSupported": "Subscriptions are not supported with Klarna",
     "klarnaOrderFailed": "Something went wrong creating the order, please try again",
     "klarnaProcessingFailed": "Something went wrong processing your order, please try again",
@@ -130,7 +131,16 @@ const i18n = {
   "labels": {
     "noStatesAvailable": "No States or Provinces Available for this Country",
     "selectState": "Select state",
-    "phoneSearchPlaceholder": "Search"
+    "phoneSearchPlaceholder": "Search",
+    "processing": "Processing...",
+    "close": "Close",
+    "cvvModalTitle": "Where is my security code?",
+    "cvvCardBack": "Back of card",
+    "cvvCardFront": "Front of card",
+    "cvvThreeDigitLabel": "3-digit CVV number",
+    "cvvFourDigitLabel": "4-digit CVV number",
+    "cvvBackDescription": "The 3-digit security code (CVV) is printed on the back of your card, to the right of the signature strip.",
+    "cvvFrontDescription": "American Express cards have a 4-digit code on the front."
   }
 };
 
@@ -606,7 +616,7 @@ async function returnKlarna() {
   if (!orderId) {
     console.error("Klarna return: no order ID found in sessionStorage");
     if (preload) preload.style.display = "none";
-    showErrorAndRedirect(i18n.errors.orderNotFoundRedirect, "checkout");
+    showErrorAndRedirect(i18n.errors.orderNotFound, "checkout");
     return;
   }
 
@@ -729,14 +739,14 @@ async function returnKlarna() {
       );
       return;
     }
-    showErrorAndRedirect(i18n.errors.unexpectedErrorRedirect, "checkout");
+    showErrorAndRedirect(i18n.errors.unexpectedError, "checkout");
   }
 }
 
 const declineKlarnaUpsell = async () => {
   if (!isKlarnaPayment) {
     showErrorAndRedirect(
-      "Klarna is not available",
+      i18n.errors.klarnaNotAvailable,
       "checkout"
     );
     return;
@@ -774,7 +784,7 @@ const declineKlarnaUpsell = async () => {
       return;
     }
     showErrorAndRedirect(
-      error.message || i18n.errors.unexpectedErrorRedirect,
+      error.message || i18n.errors.unexpectedError,
       "checkout"
     );
   } finally {
@@ -786,7 +796,7 @@ const declineKlarnaUpsell = async () => {
 
 const processKlarnaUpsell = async () => {
   if (!isKlarnaPayment) {
-    throw new Error("Klarna is not available");
+    throw new Error(i18n.errors.klarnaNotAvailable);
   }
   setUpsellButtonsDisabled(true);
 
@@ -886,7 +896,7 @@ const processKlarnaUpsell = async () => {
         body: JSON.stringify({
           offers: offers.map((o) => JSON.stringify(o)),
           order_id: lastOrderId,
-          pageId: "PXKMlDA-5NKQXShIVpIYgp7V-bTuI5DIlqOFLgcz-zaV9wrzOBGcUde9FjDMiDj7"
+          pageId: "wQjV6Eb1mzzRolgkBo1joWHfvo7Z6iBFWzHUdof7eCuLaNPQWCbPuZ7vEn3YUz7I"
         })
       }
     );
@@ -966,7 +976,7 @@ const processUpsell = async () => {
   }
   try {
     const orderData = JSON.parse(sessionStorage.getItem("orderData"));
-    orderData.pageId = "PXKMlDA-5NKQXShIVpIYgp7V-bTuI5DIlqOFLgcz-zaV9wrzOBGcUde9FjDMiDj7";
+    orderData.pageId = "wQjV6Eb1mzzRolgkBo1joWHfvo7Z6iBFWzHUdof7eCuLaNPQWCbPuZ7vEn3YUz7I";
     const lastOrderId = sessionStorage.getItem("cms_oid");
     const stripePayment = JSON.parse(sessionStorage.getItem("stripePayment"));
     const isStripeTestOrder = stripePayment && !stripePayment.isLive;
@@ -1162,6 +1172,57 @@ const areAllProductsRecurring = () => {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  
+(function ensurePreloaderExists() {
+    if (document.querySelector('[data-preloader]')) return;
+    const loaderOverlay = document.createElement('div');
+    loaderOverlay.setAttribute('data-preloader', '');
+    loaderOverlay.innerHTML = `
+        <div class="loader"></div>
+        <p>${i18n.labels.processing}</p>
+    `;
+
+    const loaderStyles = `
+        [data-preloader] {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: 9999;
+        }
+        [data-preloader] .loader {
+            width: 48px;
+            height: 48px;
+            border-bottom-color: transparent !important;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            margin-top: 22px;
+            border: 5px solid rgb(18, 76, 117);
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    `;
+    document.head.insertAdjacentHTML('beforeend', `<style>${loaderStyles}</style>`);
+    document.body.appendChild(loaderOverlay);
+})();
+
   
 if (typeof validateAndSendToKlaviyo === "function") {
   try {

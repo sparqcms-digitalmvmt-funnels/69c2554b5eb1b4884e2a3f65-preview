@@ -126,6 +126,7 @@ const i18n = {
     "systemErrorOffer": "There was a problem with this offer. Please contact support or try again later.",
     "systemErrorGeneric": "Something went wrong processing your order. Please try again or contact support if the problem persists.",
     "klarnaNotAvailableRecurring": "Klarna is not available for recurring products.",
+    "klarnaNotAvailable": "Klarna is not available.",
     "klarnaSubscriptionsNotSupported": "Subscriptions are not supported with Klarna",
     "klarnaOrderFailed": "Something went wrong creating the order, please try again",
     "klarnaProcessingFailed": "Something went wrong processing your order, please try again",
@@ -145,7 +146,16 @@ const i18n = {
   "labels": {
     "noStatesAvailable": "No States or Provinces Available for this Country",
     "selectState": "Select state",
-    "phoneSearchPlaceholder": "Search"
+    "phoneSearchPlaceholder": "Search",
+    "processing": "Processing...",
+    "close": "Close",
+    "cvvModalTitle": "Where is my security code?",
+    "cvvCardBack": "Back of card",
+    "cvvCardFront": "Front of card",
+    "cvvThreeDigitLabel": "3-digit CVV number",
+    "cvvFourDigitLabel": "4-digit CVV number",
+    "cvvBackDescription": "The 3-digit security code (CVV) is printed on the back of your card, to the right of the signature strip.",
+    "cvvFrontDescription": "American Express cards have a 4-digit code on the front."
   }
 };
 
@@ -286,7 +296,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const endpoint =
     `orders?order_id=${orderids.join(",")}` +
-    `&with=order_offers,customer_address_billing,customer_address_shipping,customer,transactions,cart&pageId=WAXGSi5i8AXOHEjK1D3naqB0gVIVJ5uXCpnOQd1ifKM0ga57-AiwfnLRML5LDfNt`
+    `&with=order_offers,customer_address_billing,customer_address_shipping,customer,transactions,cart&pageId=SqeUcLHOwDHj9Mz4r5IEEqg_gHh69DqWnRKdDGC0zEkABwjPa4EzL-rw6eI0VHaB`
 
   const response = await fetch(
     `https://app-cms-api-proxy-dev-001.azurewebsites.net/vrio/${endpoint}`,

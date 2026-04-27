@@ -77,7 +77,7 @@ if (localStorage.getItem('sK_r')) {
 const route = async () => {
   if (localStorage.getItem('sK_r')) return JSON.parse(localStorage.getItem('sK_r'));
   const sessionId = MVMT.getSessionId() || localStorage.getItem("mvmt_session_id") || "";
-  const url = 'https://func-ab-test-events-dev-001.azurewebsites.net/api/checkRoute?id=69c2554b5eb1b4884e2a3f65&v=177685447195676&sessionId='+sessionId;
+  const url = 'https://func-ab-test-events-dev-001.azurewebsites.net/api/checkRoute?id=69c2554b5eb1b4884e2a3f65&v=177728323399182&sessionId='+sessionId;
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Network response was not ok');
@@ -340,56 +340,7 @@ function updateTimer () {
 
 if (timer) {
   intervalId = setInterval(updateTimer, 1000);
-}</script><script>function parseTimeString(timeStr) {
-    const parts = timeStr.split(":").map(Number);
-    if (parts.length === 3) {
-        const [h, m, s] = parts;
-        return h * 3600 + m * 60 + s;
-    } else if (parts.length === 2) {
-        const [m, s] = parts;
-        return m * 60 + s;
-    }
-    return 0;
-}
-
-function formatTime(seconds) {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = seconds % 60;
-    if (h > 0) {
-        return `${String(h).padStart(2, "0")}:${String(m).padStart(
-            2,
-            "0"
-        )}:${String(s).padStart(2, "0")}`;
-    } else {
-        return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-    }
-}
-
-function startFomoTimers() {
-    const timerElements = document.querySelectorAll("[data-timer]");
-
-    timerElements.forEach((el) => {
-        let timeLeft = parseTimeString(el.textContent.trim());
-
-        if (timeLeft <= 0) return;
-
-        const interval = setInterval(() => {
-            if (timeLeft <= 0) {
-                clearInterval(interval);
-                el.textContent = "00:00";
-                el.classList.add("expired"); // Optional: mark as expired
-                return;
-            }
-
-            timeLeft--;
-            el.textContent = formatTime(timeLeft);
-        }, 1000);
-    });
-}
-
-document.addEventListener("DOMContentLoaded", startFomoTimers);
-</script>
+}</script>
 <script type="application/json" id="page-config">
 {
   "campaignId": "39",
@@ -428,9 +379,9 @@ document.addEventListener("DOMContentLoaded", startFomoTimers);
     var timerElements = document.querySelectorAll("[data-timer]:not([data-fomo-timer-init])");
     timerElements.forEach(function (el) {
       if (el.hasAttribute("data-fomo-timer-init")) return;
+      el.setAttribute("data-fomo-timer-init", "");
       var timeLeft = parseTimeString(el.textContent.trim());
       if (timeLeft <= 0) return;
-      el.setAttribute("data-fomo-timer-init", "");
       var interval = setInterval(function () {
         if (timeLeft <= 0) {
           clearInterval(interval);
