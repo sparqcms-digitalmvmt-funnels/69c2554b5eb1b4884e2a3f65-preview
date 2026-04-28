@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 const EMAIL_OVERSIGHT_VALIDATE_URL = 'https://app-cms-api-proxy-dev-001.azurewebsites.net/integration/email-oversight/validate-public';
 
 
-const CHECKOUT_NEXT_PAGE_SLUG = "";
+const CHECKOUT_NEXT_PAGE_SLUG = "product/1/upsell";
 
 function getNextPageSlugForRedirect() {
   const normalize = (value) => {
@@ -88,6 +88,13 @@ const clientIPPromise = (async () => {
 // Prefetch the next page so the browser can start loading it in the background.
 // By the time the order completes and we redirect, it will already be cached.
 
+(function() {
+  var link = document.createElement("link");
+  link.rel = "prefetch";
+  link.href = "/product/1/upsell";
+  document.head.appendChild(link);
+})();
+
 
 let isTest = sessionStorage.getItem("test");
 
@@ -116,7 +123,7 @@ const isKlarnaEnabled = Boolean(
   STRIPE_EXPRESS_CONFIG?.wallets?.enableKlarna
 );
 sessionStorage.setItem("isKlarnaEnabled", JSON.stringify(isKlarnaEnabled));
-const HAS_FOLLOWING_UPSELLS = false;
+const HAS_FOLLOWING_UPSELLS = true;
 
 // Select non-VIP campaign for checkout
 const getVrioCampaignInfoBasedOnPaymentMethod = (isVipUpsell) => {
@@ -357,7 +364,7 @@ const getVrioOfferIdByProductId = (productId) =>
 sessionStorage.setItem("integrationId", INTEGRATION_ID);
 
 const getPrices = () => {
-  return [{"id":232,"name":"1x EXTRA Vi-Shift Glasses","quantity":1,"price":19.99,"shippable":false,"fullPrice":19.99,"finalPrice":19.99,"productName":"1x EXTRA Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":224,"name":"1x Flexible Glasses","quantity":1,"price":29.99,"shippable":false,"fullPrice":29.99,"finalPrice":29.99,"productName":"1x Flexible Glasses","discountAmount":0,"discountPercentage":0},{"id":59,"name":"1x USB 3.0 Quick Charger","quantity":1,"price":0,"shippable":false,"fullPrice":15.98,"finalPrice":15.98,"productName":"1x USB 3.0 Quick Charger","discountAmount":0,"discountPercentage":0},{"id":225,"name":"2x Vi-Shift Glasses","quantity":1,"price":53.98,"shippable":false,"fullPrice":53.98,"finalPrice":53.98,"productName":"2x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":230,"name":"3 Year Extended Warranty","quantity":1,"price":10,"shippable":false,"fullPrice":10,"finalPrice":10,"productName":"3 Year Extended Warranty","discountAmount":0,"discountPercentage":0},{"id":226,"name":"3x Vi-Shift Glasses","quantity":1,"price":71.97,"shippable":false,"fullPrice":123.41,"finalPrice":123.41,"productName":"3x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":227,"name":"4x Vi-Shift Glasses","quantity":1,"price":83.96,"shippable":false,"fullPrice":1242.35,"finalPrice":1242.35,"productName":"4x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":228,"name":"5x Vi-Shift Glasses","quantity":1,"price":89.95,"shippable":false,"fullPrice":2341.23,"finalPrice":2341.23,"productName":"5x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":231,"name":"Journey Package Protection","quantity":1,"price":3.5,"shippable":false,"fullPrice":3.5,"finalPrice":3.5,"productName":"Journey Package Protection","discountAmount":0,"discountPercentage":0},{"id":233,"name":"Vi-Shift Glasses - Expedited Shipping","quantity":1,"price":9.99,"shippable":false,"fullPrice":9.99,"finalPrice":9.99,"productName":"Vi-Shift Glasses - Expedited Shipping","discountAmount":0,"discountPercentage":0},{"id":229,"name":"Vi-Shift Protective Case Upgrade","quantity":1,"price":9.95,"shippable":false,"fullPrice":9.95,"finalPrice":9.95,"productName":"Vi-Shift Protective Case Upgrade","discountAmount":0,"discountPercentage":0}]
+  return [{"id":232,"name":"1x EXTRA Vi-Shift Glasses","quantity":1,"price":19.99,"shippable":false,"fullPrice":19.99,"finalPrice":19.99,"productName":"1x EXTRA Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":224,"name":"1x Flexible Glasses","quantity":1,"price":29.99,"shippable":false,"fullPrice":29.99,"finalPrice":29.99,"productName":"1x Flexible Glasses","discountAmount":0,"discountPercentage":0},{"id":59,"name":"1x USB 3.0 Quick Charger","quantity":1,"price":0,"shippable":false,"fullPrice":0,"finalPrice":0,"productName":"1x USB 3.0 Quick Charger","discountAmount":0,"discountPercentage":0},{"id":225,"name":"2x Vi-Shift Glasses","quantity":1,"price":53.98,"shippable":false,"fullPrice":53.98,"finalPrice":53.98,"productName":"2x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":230,"name":"3 Year Extended Warranty","quantity":1,"price":10,"shippable":false,"fullPrice":10,"finalPrice":10,"productName":"3 Year Extended Warranty","discountAmount":0,"discountPercentage":0},{"id":226,"name":"3x Vi-Shift Glasses","quantity":1,"price":71.97,"shippable":false,"fullPrice":71.97,"finalPrice":71.97,"productName":"3x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":227,"name":"4x Vi-Shift Glasses","quantity":1,"price":83.96,"shippable":false,"fullPrice":83.96,"finalPrice":83.96,"productName":"4x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":228,"name":"5x Vi-Shift Glasses","quantity":1,"price":89.95,"shippable":false,"fullPrice":89.95,"finalPrice":89.95,"productName":"5x Vi-Shift Glasses","discountAmount":0,"discountPercentage":0},{"id":231,"name":"Journey Package Protection","quantity":1,"price":3.5,"shippable":false,"fullPrice":3.5,"finalPrice":3.5,"productName":"Journey Package Protection","discountAmount":0,"discountPercentage":0},{"id":233,"name":"Vi-Shift Glasses - Expedited Shipping","quantity":1,"price":9.99,"shippable":false,"fullPrice":9.99,"finalPrice":9.99,"productName":"Vi-Shift Glasses - Expedited Shipping","discountAmount":0,"discountPercentage":0},{"id":229,"name":"Vi-Shift Protective Case Upgrade","quantity":1,"price":9.95,"shippable":false,"fullPrice":9.95,"finalPrice":9.95,"productName":"Vi-Shift Protective Case Upgrade","discountAmount":0,"discountPercentage":0}]
 };
 
 const SUPPORTED_ADDRESS_COUNTRIES = [{"name":"United States of America","iso_2":"US"},{"name":"Canada","iso_2":"CA"},{"name":"United Kingdom","iso_2":"GB"},{"name":"Australia","iso_2":"AU"},{"name":"Germany","iso_2":"DE"},{"name":"France","iso_2":"FR"},{"name":"Spain","iso_2":"ES"},{"name":"Italy","iso_2":"IT"}];
@@ -653,7 +660,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
         ?.getAttribute("data-shipping-profile-id") || undefined;
 
   const orderData = {
-    pageId: "SETxVCjz3B520J-NLczlkYGsdFF_otyI6U-MhAXDD8jOrh25SuZ0d5_CFxZ1HTPh",
+    pageId: "wx4XIFjb777jM7h0my7LFGxmJjHq3UlPD2icH4dkwfiyjxCzP20pGt50EFCdA03d",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
@@ -828,7 +835,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
     console.error("Error validating and sending to Klaviyo", error);
   }
   MVMT.track("ORDER_SUBMITTED", {
-    page: "checkout1",
+    page: "checkout2",
     page_type: "Checkout",
     page_url: window.location.href,
     order_data: sanitizedOrderData,
@@ -854,7 +861,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
       handlePaymentDecline();
       if (window.MVMT) {
         MVMT.track("ORDER_ERROR", {
-          page: "checkout1",
+          page: "checkout2",
           page_type: "Checkout",
           page_url: window.location.href,
           order_data: sanitizedOrderData,
@@ -883,7 +890,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
       );
       if (window.MVMT) {
         MVMT.track("ORDER_ERROR", {
-          page: "checkout1",
+          page: "checkout2",
           page_type: "Checkout",
           page_url: window.location.href,
           order_data: sanitizedOrderData,
@@ -900,7 +907,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
         handleSystemError(errorCode);
         if (window.MVMT) {
           MVMT.track("ORDER_ERROR", {
-            page: "checkout1",
+            page: "checkout2",
             page_type: "Checkout",
             page_url: window.location.href,
             order_data: sanitizedOrderData,
@@ -920,7 +927,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
 
       if (window.MVMT) {
         MVMT.track("ORDER_ERROR", {
-          page: "checkout1",
+          page: "checkout2",
           page_type: "Checkout",
           page_url: window.location.href,
           order_data: sanitizedOrderData,
@@ -948,7 +955,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
       console.error("Error validating and sending to Klaviyo", error);
     }
     MVMT.track("ORDER_SUCCESS", {
-      page: "checkout1",
+      page: "checkout2",
       page_type: "Checkout",
       page_url: window.location.href,
       order_data: sanitizedOrderData,
@@ -1434,7 +1441,7 @@ async function createOrderViaPaypal(isExpress = false) {
   const shippingProfileId = +document.querySelector(`[data-product-id="${selectedProduct.id}"]`)?.getAttribute('data-shipping-profile-id') || undefined;
   const sameAddress = isSameAddress();
   const orderData = {
-    pageId: "SETxVCjz3B520J-NLczlkYGsdFF_otyI6U-MhAXDD8jOrh25SuZ0d5_CFxZ1HTPh",
+    pageId: "wx4XIFjb777jM7h0my7LFGxmJjHq3UlPD2icH4dkwfiyjxCzP20pGt50EFCdA03d",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -1632,7 +1639,7 @@ async function createOrderViaPaypal(isExpress = false) {
     console.error("Error validating and sending to Klaviyo", error);
   }
   MVMT.track("ORDER_SUBMITTED", {
-    page: "checkout1",
+    page: "checkout2",
     page_type: "Checkout",
     page_url: window.location.href,
     order_data: sanitizedOrderData,
@@ -1733,7 +1740,7 @@ async function createOrderViaKlarna() {
   const sameAddress = isSameAddress();
 
   const orderData = {
-    pageId: "SETxVCjz3B520J-NLczlkYGsdFF_otyI6U-MhAXDD8jOrh25SuZ0d5_CFxZ1HTPh",
+    pageId: "wx4XIFjb777jM7h0my7LFGxmJjHq3UlPD2icH4dkwfiyjxCzP20pGt50EFCdA03d",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
     email: email,
@@ -1945,7 +1952,7 @@ async function createOrderViaKlarna() {
   }
 
   MVMT.track("ORDER_SUBMITTED", {
-    page: "checkout1",
+    page: "checkout2",
     page_type: "Checkout",
     page_url: window.location.href,
     order_data: sanitizedOrderData
@@ -1980,7 +1987,7 @@ async function createOrderViaKlarna() {
         handleSystemError(errorCode);
         if (window.MVMT) {
           MVMT.track("ORDER_ERROR", {
-            page: "checkout1",
+            page: "checkout2",
             page_type: "Checkout",
             page_url: window.location.href,
             order_data: sanitizedOrderData,
@@ -1999,7 +2006,7 @@ async function createOrderViaKlarna() {
       showError(msg);
       if (window.MVMT) {
         MVMT.track("ORDER_ERROR", {
-          page: "checkout1",
+          page: "checkout2",
           page_type: "Checkout",
           page_url: window.location.href,
           order_data: sanitizedOrderData,
@@ -2037,7 +2044,7 @@ async function createOrderViaKlarna() {
       showError(msg);
       if (window.MVMT) {
         MVMT.track("ORDER_ERROR", {
-          page: "checkout1",
+          page: "checkout2",
           page_type: "Checkout",
           page_url: window.location.href,
           order_data: sanitizedOrderData,
@@ -2051,7 +2058,7 @@ async function createOrderViaKlarna() {
     showError(i18n.errors.unexpectedError);
     if (window.MVMT) {
       MVMT.track("ORDER_ERROR", {
-        page: "checkout1",
+        page: "checkout2",
         page_type: "Checkout",
         page_url: window.location.href,
         order_data: sanitizedOrderData,
@@ -2112,7 +2119,7 @@ async function createOrderViaCreditCard() {
   let orderTotal = Math.max(0, Number(selectedProduct.price) * selectedProduct.quantity);
 
   const orderData = {
-    pageId: "SETxVCjz3B520J-NLczlkYGsdFF_otyI6U-MhAXDD8jOrh25SuZ0d5_CFxZ1HTPh",
+    pageId: "wx4XIFjb777jM7h0my7LFGxmJjHq3UlPD2icH4dkwfiyjxCzP20pGt50EFCdA03d",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -2326,7 +2333,7 @@ async function createOrderViaCreditCard() {
     console.log("Sending order to VRIO", { sanitizedOrderData });
   }
   MVMT.track("ORDER_SUBMITTED", {
-    page: "checkout1",
+    page: "checkout2",
     page_type: "Checkout",
     page_url: window.location.href,
     order_data: sanitizedOrderData,
@@ -2349,7 +2356,7 @@ async function createOrderViaCreditCard() {
       handlePaymentDecline();
       if (window.MVMT) {
         MVMT.track("ORDER_ERROR", {
-          page: "checkout1",
+          page: "checkout2",
           page_type: "Checkout",
           page_url: window.location.href,
           order_data: sanitizedOrderData,
@@ -2370,7 +2377,7 @@ async function createOrderViaCreditCard() {
           handleSystemError(errorCode);
           if (window.MVMT) {
             MVMT.track("ORDER_ERROR", {
-              page: "checkout1",
+              page: "checkout2",
               page_type: "Checkout",
               page_url: window.location.href,
               order_data: sanitizedOrderData,
@@ -2388,7 +2395,7 @@ async function createOrderViaCreditCard() {
 
         if (window.MVMT) {
           MVMT.track("ORDER_ERROR", {
-            page: "checkout1",
+            page: "checkout2",
             page_type: "Checkout",
             page_url: window.location.href,
             order_data: sanitizedOrderData,
@@ -2399,7 +2406,7 @@ async function createOrderViaCreditCard() {
       }
 
     MVMT.track("ORDER_SUCCESS", {
-      page: "checkout1",
+      page: "checkout2",
       page_type: "Checkout",
       page_url: window.location.href,
       order_data: sanitizedOrderData,
@@ -2597,7 +2604,7 @@ async function sendLead() {
     console.log("Sending Lead/Partial to VRIO", { sanitizedOrderData });
   }
   MVMT.track("LEAD_SUBMITTED", {
-    page: "checkout1",
+    page: "checkout2",
     page_type: "Checkout",
     page_url: window.location.href,
     order_data: sanitizedOrderData,
@@ -2884,7 +2891,7 @@ if (typeof validateAndSendToKlaviyo === "function") {
       message: "Klaviyo lifecycle: page ready",
       runId: "initial",
       hypothesisId: "KlaviyoLifecycle",
-      data: { pageName: "checkout1", pageType: "Checkout" },
+      data: { pageName: "checkout2", pageType: "Checkout" },
     };
     if (klaviyoDebugEnabled && typeof console !== "undefined" && console.log) {
       console.log("[Klaviyo lifecycle] page_ready " + JSON.stringify(pageReadyPayload.data));
@@ -2910,132 +2917,7 @@ if (typeof validateAndSendToKlaviyo === "function") {
   }
 
   returnPaypal();
-  async function returnKlarna() {
-  const params = getParams();
-  const paymentIntent = params.get("payment_intent");
-  const orderId = sessionStorage.getItem("cms_oid");
-
-  if (!paymentIntent) return;
-
-  const preload = document.querySelector("[data-preloader]");
-  if (preload) preload.style.display = "flex";
-
-  if (!orderId) {
-    console.error("Klarna return: no order ID found in sessionStorage");
-    if (preload) preload.style.display = "none";
-    showError(i18n.errors.orderNotFound);
-    return;
-  }
-
-  const orderData = JSON.parse(sessionStorage.getItem("orderData") || "null") || {};
-  const merchantId = orderData?.merchant_id ?? orderData?.merchantId ?? null;
-
-  try {
-    const response = await fetch(
-      `https://app-cms-api-proxy-dev-001.azurewebsites.net/vrio/orders/${orderId}/complete`,
-      {
-        method: "POST",
-        headers: {
-          authorization: `appkey ${INTEGRATION_ID}`,
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify({
-          transaction_token: paymentIntent,
-          ...(merchantId ? { merchant_id: merchantId } : {})
-        })
-      }
-    );
-
-    const result = await response.json();
-
-    if (isTest && window.location.hostname === "localhost") {
-      console.log("Klarna complete response:", result);
-    }
-
-    let isLive = extractKlarnaLivemode(result.gateway_response_text);
-    if (isLive === undefined) {
-      const stored = sessionStorage.getItem("klarna_livemode");
-      isLive = stored !== null ? JSON.parse(stored) : true;
-    }
-
-    const resultOrderId = result.order_id || orderId;
-
-    if (result.success) {
-      if (isLive === false) await flagOrderAsTest(resultOrderId);
-
-      sessionStorage.removeItem("cart_token");
-      sessionStorage.removeItem("klarna_livemode");
-      sessionStorage.setItem("cms_oid", resultOrderId);
-      sessionStorage.setItem("orderids", JSON.stringify([resultOrderId]));
-      MVMT.track("ORDER_SUCCESS", {
-        page: "checkout1",
-        page_type: "Checkout",
-        page_url: window.location.href,
-        order_data: orderData,
-        response: result,
-      });
-      try {
-        sendTransactionToDataLayer(vrioToTransaction(result), "Klarna");
-      } catch (e) {
-        console.warn("Klarna: could not send transaction to data layer", e);
-      }
-      try {
-        if (typeof validateAndSendToKlaviyo === "function") {
-          const klaviyoPostOrderData = {
-            ...orderData,
-            vrio_order_id: resultOrderId,
-            vrio_response_status: "success",
-          };
-          await validateAndSendToKlaviyo(
-            klaviyoPostOrderData,
-            "Order Success - VRIO Confirmation",
-            "order"
-          );
-        }
-      } catch (error) {
-        console.error("Error sending transaction to data layer", error);
-      }
-      window.location.href = "/" + nextPageSlug;
-    } else {
-      if (!isLive) await flagOrderAsTest(resultOrderId);
-
-      if (isTest) console.error("Klarna complete error:", result);
-      const msg =
-        (result && result.error && result.error.message) ||
-        (result && result.message) ||
-        i18n.errors.klarnaCompletionFailed;
-      if (window.MVMT) {
-        MVMT.track("ORDER_ERROR", {
-          page: "checkout1",
-          page_type: "Checkout",
-          page_url: window.location.href,
-          order_data: orderData,
-          response: result,
-        });
-      }
-      if (preload) preload.style.display = "none";
-      showError(msg);
-    }
-  } catch (error) {
-    if (isTest) console.error("Klarna complete error:", error);
-    const storedLive = sessionStorage.getItem("klarna_livemode");
-    if (storedLive !== null && JSON.parse(storedLive) === false) {
-      await flagOrderAsTest(orderId);
-    }
-    if (window.MVMT) {
-      MVMT.track("ORDER_ERROR", {
-        page: "checkout1",
-        page_type: "Checkout",
-        page_url: window.location.href,
-        order_data: orderData,
-        error: error.message || error,
-      });
-    }
-    if (preload) preload.style.display = "none";
-    showError(i18n.errors.unexpectedError);
-  }
-}
-  if (isKlarnaEnabled) { returnKlarna(); }
+  
   const allProducts = document.querySelectorAll("[data-product-id]");
   handleFreeShippingParam(allProducts);
   handleFreeGiftParam(allProducts);
@@ -4489,7 +4371,7 @@ async function returnPaypal() {
 ;
 
     const body = {
-        pageId: "SETxVCjz3B520J-NLczlkYGsdFF_otyI6U-MhAXDD8jOrh25SuZ0d5_CFxZ1HTPh",
+        pageId: "wx4XIFjb777jM7h0my7LFGxmJjHq3UlPD2icH4dkwfiyjxCzP20pGt50EFCdA03d",
         action: "process",
         campaign_id: CAMPAIGN_ID,
         connection_id: 1,
@@ -4606,7 +4488,7 @@ async function returnPaypal() {
         handlePaymentDecline();
         if (window.MVMT) {
           MVMT.track("ORDER_ERROR", {
-            page: "checkout1",
+            page: "checkout2",
             page_type: "Checkout",
             page_url: window.location.href,
             order_data: body,
