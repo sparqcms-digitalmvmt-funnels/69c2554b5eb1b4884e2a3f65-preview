@@ -660,7 +660,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
         ?.getAttribute("data-shipping-profile-id") || undefined;
 
   const orderData = {
-    pageId: "KSmH9RsFB8NB7tjrCawqGH0X9TXxGnWiqCXEKMLN-_R7HYgauewcvBZy6cF9smd-",
+    pageId: "Mxh-CX6aahVR0gaOxcYFcv8oDjj1g1UruNBmM39IuZXk6dFiTsSnPY1mMBKSklAg",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
@@ -1441,7 +1441,7 @@ async function createOrderViaPaypal(isExpress = false) {
   const shippingProfileId = +document.querySelector(`[data-product-id="${selectedProduct.id}"]`)?.getAttribute('data-shipping-profile-id') || undefined;
   const sameAddress = isSameAddress();
   const orderData = {
-    pageId: "KSmH9RsFB8NB7tjrCawqGH0X9TXxGnWiqCXEKMLN-_R7HYgauewcvBZy6cF9smd-",
+    pageId: "Mxh-CX6aahVR0gaOxcYFcv8oDjj1g1UruNBmM39IuZXk6dFiTsSnPY1mMBKSklAg",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -1740,7 +1740,7 @@ async function createOrderViaKlarna() {
   const sameAddress = isSameAddress();
 
   const orderData = {
-    pageId: "KSmH9RsFB8NB7tjrCawqGH0X9TXxGnWiqCXEKMLN-_R7HYgauewcvBZy6cF9smd-",
+    pageId: "Mxh-CX6aahVR0gaOxcYFcv8oDjj1g1UruNBmM39IuZXk6dFiTsSnPY1mMBKSklAg",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
     email: email,
@@ -2119,7 +2119,7 @@ async function createOrderViaCreditCard() {
   let orderTotal = Math.max(0, Number(selectedProduct.price) * selectedProduct.quantity);
 
   const orderData = {
-    pageId: "KSmH9RsFB8NB7tjrCawqGH0X9TXxGnWiqCXEKMLN-_R7HYgauewcvBZy6cF9smd-",
+    pageId: "Mxh-CX6aahVR0gaOxcYFcv8oDjj1g1UruNBmM39IuZXk6dFiTsSnPY1mMBKSklAg",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -4371,7 +4371,7 @@ async function returnPaypal() {
 ;
 
     const body = {
-        pageId: "KSmH9RsFB8NB7tjrCawqGH0X9TXxGnWiqCXEKMLN-_R7HYgauewcvBZy6cF9smd-",
+        pageId: "Mxh-CX6aahVR0gaOxcYFcv8oDjj1g1UruNBmM39IuZXk6dFiTsSnPY1mMBKSklAg",
         action: "process",
         campaign_id: CAMPAIGN_ID,
         connection_id: 1,
