@@ -660,7 +660,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
         ?.getAttribute("data-shipping-profile-id") || undefined;
 
   const orderData = {
-    pageId: "wSlEJR04dm-7r0G_UErDEpn3NBJFiyw77QkfPegYgFVBZNgZnJl9sWzbQnmbpOhF",
+    pageId: "AKU-A7W0_bc5L6wUhx8_QjEXuiVz5olnapv6jwi_gf1KGRwqc7oD0fNNec4tTmds",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
@@ -1441,7 +1441,7 @@ async function createOrderViaPaypal(isExpress = false) {
   const shippingProfileId = +document.querySelector(`[data-product-id="${selectedProduct.id}"]`)?.getAttribute('data-shipping-profile-id') || undefined;
   const sameAddress = isSameAddress();
   const orderData = {
-    pageId: "wSlEJR04dm-7r0G_UErDEpn3NBJFiyw77QkfPegYgFVBZNgZnJl9sWzbQnmbpOhF",
+    pageId: "AKU-A7W0_bc5L6wUhx8_QjEXuiVz5olnapv6jwi_gf1KGRwqc7oD0fNNec4tTmds",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -1740,7 +1740,7 @@ async function createOrderViaKlarna() {
   const sameAddress = isSameAddress();
 
   const orderData = {
-    pageId: "wSlEJR04dm-7r0G_UErDEpn3NBJFiyw77QkfPegYgFVBZNgZnJl9sWzbQnmbpOhF",
+    pageId: "AKU-A7W0_bc5L6wUhx8_QjEXuiVz5olnapv6jwi_gf1KGRwqc7oD0fNNec4tTmds",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
     email: email,
@@ -2119,7 +2119,7 @@ async function createOrderViaCreditCard() {
   let orderTotal = Math.max(0, Number(selectedProduct.price) * selectedProduct.quantity);
 
   const orderData = {
-    pageId: "wSlEJR04dm-7r0G_UErDEpn3NBJFiyw77QkfPegYgFVBZNgZnJl9sWzbQnmbpOhF",
+    pageId: "AKU-A7W0_bc5L6wUhx8_QjEXuiVz5olnapv6jwi_gf1KGRwqc7oD0fNNec4tTmds",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -4371,7 +4371,7 @@ async function returnPaypal() {
 ;
 
     const body = {
-        pageId: "wSlEJR04dm-7r0G_UErDEpn3NBJFiyw77QkfPegYgFVBZNgZnJl9sWzbQnmbpOhF",
+        pageId: "AKU-A7W0_bc5L6wUhx8_QjEXuiVz5olnapv6jwi_gf1KGRwqc7oD0fNNec4tTmds",
         action: "process",
         campaign_id: CAMPAIGN_ID,
         connection_id: 1,
