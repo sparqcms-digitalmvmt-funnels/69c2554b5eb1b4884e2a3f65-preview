@@ -653,7 +653,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
         ?.getAttribute("data-shipping-profile-id") || undefined;
 
   const orderData = {
-    pageId: "qxsxOhJ8m-ayvYtP1GjqBkxKwaYzo8RPTu6R-6_j1_K3oSh88tgrAow0IpigQMiA",
+    pageId: "mF5iBjsF3aTVf1FYdDwIUI1eRmj_5X98Wfy04JW9Zt9Ew8JF-usAzvLIWxwFNGkw",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
@@ -1434,7 +1434,7 @@ async function createOrderViaPaypal(isExpress = false) {
   const shippingProfileId = +document.querySelector(`[data-product-id="${selectedProduct.id}"]`)?.getAttribute('data-shipping-profile-id') || undefined;
   const sameAddress = isSameAddress();
   const orderData = {
-    pageId: "qxsxOhJ8m-ayvYtP1GjqBkxKwaYzo8RPTu6R-6_j1_K3oSh88tgrAow0IpigQMiA",
+    pageId: "mF5iBjsF3aTVf1FYdDwIUI1eRmj_5X98Wfy04JW9Zt9Ew8JF-usAzvLIWxwFNGkw",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -1733,7 +1733,7 @@ async function createOrderViaKlarna() {
   const sameAddress = isSameAddress();
 
   const orderData = {
-    pageId: "qxsxOhJ8m-ayvYtP1GjqBkxKwaYzo8RPTu6R-6_j1_K3oSh88tgrAow0IpigQMiA",
+    pageId: "mF5iBjsF3aTVf1FYdDwIUI1eRmj_5X98Wfy04JW9Zt9Ew8JF-usAzvLIWxwFNGkw",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
     email: email,
@@ -2112,7 +2112,7 @@ async function createOrderViaCreditCard() {
   let orderTotal = Math.max(0, Number(selectedProduct.price) * selectedProduct.quantity);
 
   const orderData = {
-    pageId: "qxsxOhJ8m-ayvYtP1GjqBkxKwaYzo8RPTu6R-6_j1_K3oSh88tgrAow0IpigQMiA",
+    pageId: "mF5iBjsF3aTVf1FYdDwIUI1eRmj_5X98Wfy04JW9Zt9Ew8JF-usAzvLIWxwFNGkw",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -4489,7 +4489,7 @@ async function returnPaypal() {
 ;
 
     const body = {
-        pageId: "qxsxOhJ8m-ayvYtP1GjqBkxKwaYzo8RPTu6R-6_j1_K3oSh88tgrAow0IpigQMiA",
+        pageId: "mF5iBjsF3aTVf1FYdDwIUI1eRmj_5X98Wfy04JW9Zt9Ew8JF-usAzvLIWxwFNGkw",
         action: "process",
         campaign_id: CAMPAIGN_ID,
         connection_id: 1,
@@ -5249,6 +5249,21 @@ function handleFreeGiftParam(allProducts) {
               id: foundProduct.id || 0,
               price: unitPrices[index],
             };
+
+            const cardTextMatch = (card.textContent || '').match(/(\d+)\s*%\s*off/i);
+            const discountPct = Number(card.getAttribute('data-product-discount')) || Number(foundProduct.discountPercentage) || (cardTextMatch ? Number(cardTextMatch[1]) : 0);
+            if (discountPct) {
+              document.querySelectorAll('.mvmt-discount-amount').forEach((el) => {
+                if (/^\d+$/.test((el.textContent || '').trim())) {
+                  el.textContent = String(discountPct);
+                }
+              });
+              document.querySelectorAll('[data-url-param-timer] span').forEach((el) => {
+                if (el.textContent && /\d+%\s*discount/i.test(el.textContent)) {
+                  el.textContent = el.textContent.replace(/\d+(?=%\s*discount)/i, String(discountPct));
+                }
+              });
+            }
           }
         }
 
